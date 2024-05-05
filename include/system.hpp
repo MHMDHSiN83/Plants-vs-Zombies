@@ -18,9 +18,10 @@ public:
     System(int width, int height);
     ~System();
     void run();
-    RenderWindow window;
 private:
+    RenderWindow window;
     Status status;
+    Plant* plant;
     Texture background_texture;
     Sprite background_sprite;
     void update();

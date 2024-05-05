@@ -12,6 +12,7 @@ System::System(int width, int height) {
         exit(0);
     }
     background_sprite.setTexture(background_texture);
+    plant = new Plant();
 }
 
 System:: ~System() {}
@@ -50,6 +51,7 @@ void System::render() {
     switch (status) {
     case (PLAYING):
         window.draw(background_sprite);
+        plant->render(&window);
         break;
     case (PAUSE_MENU):
         break;
