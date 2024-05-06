@@ -14,7 +14,8 @@ System::System(int width, int height) {
     background_sprite.setTexture(background_texture);
     for(int i = 0; i < PLANTS_NUMBER; i++)
         cards[i] = new Card(FIRST_CARD_POSITION, i);
-    plant = new Plant();
+    // plant = new Plant();
+    // plants.push_back(new Plant);
     // planting_area.first = make_pair(248, 993);
     // planting_area.second = make_pair(78, 573);
     // float tile_width = (993 - 248) / 9;
@@ -43,7 +44,8 @@ void System::update() {
     Vector2i position = Mouse::getPosition(window);
     switch (status) {
     case (PLAYING):
-        plant->update(position);
+        update_plants(position);
+        // plant->update(position);
         update_cards();
         break;
     case (PAUSE_MENU):
@@ -64,7 +66,8 @@ void System::render() {
     switch (status) {
     case (PLAYING):
         window.draw(background_sprite);
-        plant->render(&window);
+        render_plants();
+        // plant->render(&window);
         render_cards();
         break;
     case (PAUSE_MENU):
@@ -108,7 +111,8 @@ void System::mouse_pressed(Event event) {
     Vector2i mouse_position = {event.mouseButton.x, event.mouseButton.y};
     switch (status) {
         case (PLAYING):
-            plant->handle_mouse_pressed(mouse_position, tiles_status);
+            // plant->handle_mouse_pressed(mouse_position, tiles_status);
+            handle_mouse_pressed_plants(mouse_position);
             handle_mouse_pressed_cards(mouse_position);
             break;
         case (PAUSE_MENU):
@@ -122,6 +126,38 @@ void System::mouse_pressed(Event event) {
   }
 }
 
+
+
+
+
+
+void System::render_plants() {
+    for (Plant* plant : plants)
+    {
+        plant->render(&window);
+    }
+    
+}
+
+void System::handle_mouse_pressed_plants(Vector2i mouse_position) {
+    for (int i = 0; i < plants.size(); i++)
+    {
+        if(!(plants[i]->handle_mouse_pressed(mouse_position, tiles_status))) {
+            plants.erase(plants.begin() + i);
+            cards[plants[i]->get_card_index()]->reset_timer();
+        }
+    }
+    
+}
+
+void System::update_plants(Vector2i position) {
+    for (Plant* plant : plants)
+    {
+        plant->update(position);
+    }
+}
+
+
 void System::render_cards() {
     for (int i = 0; i < PLANTS_NUMBER; i++)
     {
@@ -133,7 +169,9 @@ void System::render_cards() {
 void System::handle_mouse_pressed_cards(Vector2i mouse_position) {
     for (int i = 0; i < PLANTS_NUMBER; i++)
     {
-        cards[i]->handle_mouse_pressed(mouse_position);
+        if(cards[i]->handle_mouse_pressed(mouse_position)) {
+            plants.push_back(new Plant(i));
+        }
     }
     
 }

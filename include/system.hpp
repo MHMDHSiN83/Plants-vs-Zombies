@@ -22,6 +22,7 @@ private:
     RenderWindow window;
     Status status;
     Plant* plant;
+    vector<Plant*> plants;
     Card* cards[PLANTS_NUMBER];
     Texture background_texture;
     Sprite background_sprite;
@@ -34,5 +35,8 @@ private:
     void render_cards();
     void update_cards();
     void handle_mouse_pressed_cards(Vector2i mouse_position);
+    void render_plants();
+    void update_plants(Vector2i position);
+    void handle_mouse_pressed_plants(Vector2i mouse_position);
 
 };

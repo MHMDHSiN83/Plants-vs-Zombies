@@ -3,16 +3,18 @@
 
 class Card {
 public:
-    Card(Vector2i first_card_position, int distance);
+    Card(Vector2i first_card_position, int type);
     ~Card();
     void render(RenderWindow* window);
     void update();
-    void handle_mouse_pressed(Vector2i mouse_position);
+    bool handle_mouse_pressed(Vector2i mouse_position);
+    void reset_timer();
 private:
-    // Vector2i position;
+    int type;
     bool is_clicked;
     Texture texture;
     Texture pressed_texture;
     Sprite sprite;
     IntRect rect;
+    int timer;
 };
