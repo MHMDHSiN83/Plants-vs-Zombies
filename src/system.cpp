@@ -13,6 +13,14 @@ System::System(int width, int height) {
     }
     background_sprite.setTexture(background_texture);
     plant = new Plant();
+    // planting_area.first = make_pair(248, 993);
+    // planting_area.second = make_pair(78, 573);
+    // float tile_width = (993 - 248) / 9;
+    // float tile_height = (573 - 78) / 5;
+    for (int i = 0; i < 5; i++)
+        for (int j = 0; j < 9; j++)
+            tiles_status[i][j] = 0;
+    
 }
 
 System:: ~System() {}
@@ -30,8 +38,10 @@ void System::run() {
 
 
 void System::update() {
+    Vector2i position = Mouse::getPosition(window);
     switch (status) {
     case (PLAYING):
+        plant->update(position);
         break;
     case (PAUSE_MENU):
         break;
@@ -78,6 +88,10 @@ void System::handle_events() {
         case (Event::MouseButtonPressed):
             mouse_pressed(event);
             break;
+        case (Event::Resized):
+        
+
+            break;
         }
     }
     window.display();
@@ -85,7 +99,22 @@ void System::handle_events() {
 
 
 void System::mouse_pressed(Event event) {
-
+    if (event.mouseButton.button == Mouse::Right)
+        return;
+    Vector2i mouse_position = {event.mouseButton.x, event.mouseButton.y};
+    switch (status) {
+        case (PLAYING):
+            plant->handle_mouse_pressed(mouse_position, tiles_status);
+            break;
+        case (PAUSE_MENU):
+            break;
+        case (MAIN_MENU):
+            break;
+        case (VICTORY_SCREEN):
+            break;
+        case (GAMEOVER_SCREEN):
+            break;
+  }
 }
 
 

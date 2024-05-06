@@ -24,6 +24,8 @@ private:
     Plant* plant;
     Texture background_texture;
     Sprite background_sprite;
+    pair<pair<float, float>, pair<float, float>> planting_area;
+    bool tiles_status[5][9];
     void update();
     void render();
     void handle_events();
