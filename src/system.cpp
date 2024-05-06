@@ -12,13 +12,15 @@ System::System(int width, int height) {
         exit(0);
     }
     background_sprite.setTexture(background_texture);
+    for(int i = 0; i < PLANTS_NUMBER; i++)
+        cards[i] = new Card(FIRST_CARD_POSITION, i);
     plant = new Plant();
     // planting_area.first = make_pair(248, 993);
     // planting_area.second = make_pair(78, 573);
     // float tile_width = (993 - 248) / 9;
     // float tile_height = (573 - 78) / 5;
-    for (int i = 0; i < 5; i++)
-        for (int j = 0; j < 9; j++)
+    for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
+        for (int j = 0; j < NUMBER_OF_TILE_WIDTH; j++)
             tiles_status[i][j] = 0;
     
 }
@@ -42,6 +44,7 @@ void System::update() {
     switch (status) {
     case (PLAYING):
         plant->update(position);
+        update_cards();
         break;
     case (PAUSE_MENU):
         break;
@@ -62,6 +65,7 @@ void System::render() {
     case (PLAYING):
         window.draw(background_sprite);
         plant->render(&window);
+        render_cards();
         break;
     case (PAUSE_MENU):
         break;
@@ -105,6 +109,7 @@ void System::mouse_pressed(Event event) {
     switch (status) {
         case (PLAYING):
             plant->handle_mouse_pressed(mouse_position, tiles_status);
+            handle_mouse_pressed_cards(mouse_position);
             break;
         case (PAUSE_MENU):
             break;
@@ -117,5 +122,25 @@ void System::mouse_pressed(Event event) {
   }
 }
 
+void System::render_cards() {
+    for (int i = 0; i < PLANTS_NUMBER; i++)
+    {
+        cards[i]->render(&window);
+    }
+    
+}
 
+void System::handle_mouse_pressed_cards(Vector2i mouse_position) {
+    for (int i = 0; i < PLANTS_NUMBER; i++)
+    {
+        cards[i]->handle_mouse_pressed(mouse_position);
+    }
+    
+}
 
+void System::update_cards() {
+    for (int i = 0; i < PLANTS_NUMBER; i++)
+    {
+        cards[i]->update();
+    }
+}
