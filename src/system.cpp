@@ -42,6 +42,8 @@ void System::update() {
     case (PLAYING):
         update_plants(position);
         update_cards();
+        update_sunshines();
+        create_sunshine();
         break;
     case (PAUSE_MENU):
         break;
@@ -63,6 +65,7 @@ void System::render() {
         window.draw(background_sprite);
         render_plants();
         render_cards();
+        render_sunshines();
         break;
     case (PAUSE_MENU):
         break;
@@ -173,5 +176,27 @@ void System::update_cards() {
     for (int i = 0; i < PLANTS_NUMBER; i++)
     {
         cards[i]->update();
+    }
+}
+
+
+void System::render_sunshines() {
+    for (Sunshine* sunshine: sunshines) {
+        sunshine->render(&window);
+    }
+    
+}
+
+void System::update_sunshines() {
+    for (Sunshine* sunshine: sunshines) {
+        sunshine->update();
+    }
+}
+
+void System::create_sunshine() {
+    sunshine_timer--;
+    if(sunshine_timer == 0) {
+        sunshines.push_back(new Sunshine);
+        sunshine_timer = 200;
     }
 }

@@ -1,10 +1,13 @@
 #pragma once
 
 #include "require.hpp"
-#include "peashooter.hpp"
 #include "card.hpp"
-// #include "peashooter.hpp"
-// 
+#include "peashooter.hpp"
+#include "sunflower.hpp"
+#include "walnut.hpp"
+#include "sunshine.hpp"
+
+
 enum Status {
     PLAYING,
     PAUSE_MENU,
@@ -24,6 +27,7 @@ private:
     Status status;
     Plant* plant;
     vector<Plant*> plants;
+    vector<Sunshine*> sunshines;
     Card* cards[PLANTS_NUMBER];
     Texture background_texture;
     Sprite background_sprite;
@@ -39,5 +43,9 @@ private:
     void render_plants();
     void update_plants(Vector2i position);
     void handle_mouse_pressed_plants(Vector2i mouse_position);
-
+    void update_sunshines();
+    void render_sunshines();
+    void create_sunshine();
+    int sunshine = 0;
+    int sunshine_timer = 200;
 };
