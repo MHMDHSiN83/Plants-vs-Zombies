@@ -74,4 +74,4 @@ bool Card::handle_mouse_pressed(Vector2i mouse_position) {
     return false;
 }
 
-void Card::reset_timer() { is_clicked = false; }
+void Card::reset_timer() { is_clicked = false;}

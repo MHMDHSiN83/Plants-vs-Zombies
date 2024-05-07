@@ -43,6 +43,7 @@ private:
     void render_plants();
     void update_plants(Vector2i position);
     void handle_mouse_pressed_plants(Vector2i mouse_position);
+    void build_animation();
     void update_sunshines();
     void render_sunshines();
     void create_sunshine();

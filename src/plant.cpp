@@ -21,6 +21,7 @@ Plant::Plant(int _type) {
 Plant::~Plant() {
 
 }
+void Plant::build_animation() {}
 
 void Plant::update(Vector2i position){
     if(!is_planted){

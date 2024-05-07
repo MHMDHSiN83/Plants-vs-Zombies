@@ -42,6 +42,7 @@ void System::update() {
     case (PLAYING):
         update_plants(position);
         update_cards();
+        build_animation();
         update_sunshines();
         create_sunshine();
         break;
@@ -177,6 +178,14 @@ void System::update_cards() {
     {
         cards[i]->update();
     }
+}
+
+void System::build_animation(){
+    for (Plant* plant : plants)
+    {
+        plant->build_animation();
+    }
+    
 }
 
 

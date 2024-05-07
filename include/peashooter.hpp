@@ -5,7 +5,7 @@
 class Peashooter : public Plant {
 public:
     Peashooter(int type);
+    void build_animation();
 private:
         int health;
-        // Tir* tir;
 };
