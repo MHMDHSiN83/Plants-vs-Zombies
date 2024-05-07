@@ -1,5 +1,6 @@
 #pragma once
 #include "require.hpp"
+// #include "peashooter.hpp"
 
 class Plant {
 public:
@@ -9,7 +10,7 @@ public:
     void render(RenderWindow* window);
     bool handle_mouse_pressed(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]);
     int get_card_index();
-private:
+protected:
     Texture texture;
     Sprite sprite;
     IntRect rect;

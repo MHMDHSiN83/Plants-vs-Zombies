@@ -163,7 +163,7 @@ void System::handle_mouse_pressed_cards(Vector2i mouse_position) {
     for (int i = 0; i < PLANTS_NUMBER; i++)
     {
         if(cards[i]->handle_mouse_pressed(mouse_position)) {
-            plants.push_back(new Plant(i));
+            plants.push_back(new Peashooter(i));
         }
     }
     
