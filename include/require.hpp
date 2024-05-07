@@ -14,6 +14,6 @@ const int MAX_HEIGHT = 573;
 const int NUMBER_OF_TILE_WIDTH = 9;
 const int NUMBER_OF_TILE_HEIGHT = 5;
 
-const int PLANTS_NUMBER = 5;
+const int PLANTS_NUMBER = 3;
 
 const Vector2i FIRST_CARD_POSITION = {50,150};

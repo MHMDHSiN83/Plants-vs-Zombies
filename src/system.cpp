@@ -1,5 +1,3 @@
-
-
 #include "../include/require.hpp"
 #include "../include/system.hpp"
 
@@ -14,15 +12,15 @@ System::System(int width, int height) {
     background_sprite.setTexture(background_texture);
     for(int i = 0; i < PLANTS_NUMBER; i++)
         cards[i] = new Card(FIRST_CARD_POSITION, i);
+    for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
+        for (int j = 0; j < NUMBER_OF_TILE_WIDTH; j++)
+            tiles_status[i][j] = 0;
     // plant = new Plant();
     // plants.push_back(new Plant);
     // planting_area.first = make_pair(248, 993);
     // planting_area.second = make_pair(78, 573);
     // float tile_width = (993 - 248) / 9;
     // float tile_height = (573 - 78) / 5;
-    for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
-        for (int j = 0; j < NUMBER_OF_TILE_WIDTH; j++)
-            tiles_status[i][j] = 0;
     
 }
 
@@ -38,14 +36,11 @@ void System::run() {
 }
 
 
-
-
 void System::update() {
     Vector2i position = Mouse::getPosition(window);
     switch (status) {
     case (PLAYING):
         update_plants(position);
-        // plant->update(position);
         update_cards();
         break;
     case (PAUSE_MENU):
@@ -67,7 +62,6 @@ void System::render() {
     case (PLAYING):
         window.draw(background_sprite);
         render_plants();
-        // plant->render(&window);
         render_cards();
         break;
     case (PAUSE_MENU):
@@ -111,7 +105,6 @@ void System::mouse_pressed(Event event) {
     Vector2i mouse_position = {event.mouseButton.x, event.mouseButton.y};
     switch (status) {
         case (PLAYING):
-            // plant->handle_mouse_pressed(mouse_position, tiles_status);
             handle_mouse_pressed_plants(mouse_position);
             handle_mouse_pressed_cards(mouse_position);
             break;

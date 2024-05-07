@@ -10,6 +10,7 @@ public:
     bool handle_mouse_pressed(Vector2i mouse_position);
     void reset_timer();
 private:
+
     int type;
     bool is_clicked;
     Texture texture;
@@ -17,4 +18,5 @@ private:
     Sprite sprite;
     IntRect rect;
     int timer;
+    void set_texture(int type);
 };

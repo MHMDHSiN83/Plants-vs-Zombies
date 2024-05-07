@@ -1,12 +1,8 @@
 #include "../include/card.hpp"
 // #include "../include/plant.hpp"
 Card::Card(Vector2i first_card_position, int _type) {
-    if(!texture.loadFromFile("assets/some picture/peashooter_card.png")) {
-        exit(0);
-    }
-    if(!pressed_texture.loadFromFile("assets/some picture/peashooter_pressed.png")) {
-        exit(0);
-    }
+    type = _type;
+    set_texture(type);
     rect.top = 0;
     rect.left = 0;
     rect.width = 280;
@@ -19,7 +15,30 @@ Card::Card(Vector2i first_card_position, int _type) {
     sprite.setScale(0.3,0.3);
     is_clicked = false;
     timer = 0;
-    type = _type;
+}
+
+void Card::set_texture(int type) {
+    switch (type)
+    {
+    case 0:
+        if(!texture.loadFromFile("assets/some picture/peashooter_card.png"))
+            exit(0);
+        if(!pressed_texture.loadFromFile("assets/some picture/peashooter_pressed.png"))
+            exit(0);
+        break;
+    case 1:
+        if(!texture.loadFromFile("assets/some picture/sunflower_card.png"))
+            exit(0);
+        if(!pressed_texture.loadFromFile("assets/some picture/sunflower_pressed.png"))
+            exit(0);
+        break;
+    case 2:
+        if(!texture.loadFromFile("assets/some picture/walnut_card.png"))
+            exit(0);
+        if(!pressed_texture.loadFromFile("assets/some picture/walnut_pressed.png"))
+            exit(0);
+        break;
+    }
 }
 
 Card::~Card() {
@@ -41,8 +60,6 @@ void Card::update(){
 void Card::render(RenderWindow* window) {
     window->draw(sprite);
 }
-
-
 
 bool Card::handle_mouse_pressed(Vector2i mouse_position) {
     Vector2f position = sprite.getPosition();
