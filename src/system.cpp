@@ -136,7 +136,7 @@ void System::handle_mouse_pressed_plants(Vector2i mouse_position) {
     for (int i = 0; i < plants.size(); i++)
     {
         if(!(plants[i]->handle_mouse_pressed(mouse_position, tiles_status))) {
-            plants.erase(plants.begin() + i);
+            plants.pop_back();
             cards[plants[i]->get_card_index()]->reset_timer();
         }
     }

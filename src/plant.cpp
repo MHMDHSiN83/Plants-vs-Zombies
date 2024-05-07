@@ -14,7 +14,6 @@ Plant::Plant(int _type) {
     Vector2f pos(FIRST_CARD_POSITION.x, FIRST_CARD_POSITION.y + _type * 70);
     sprite.setPosition(pos);
     sprite.setScale(2,2);
-    is_clicked = true;
     is_planted = false;
     type = _type;
 }
@@ -24,7 +23,7 @@ Plant::~Plant() {
 }
 
 void Plant::update(Vector2i position){
-    if(is_clicked){
+    if(!is_planted){
         Vector2f target(position.x - sprite.getTextureRect().width, position.y - sprite.getTextureRect().height);
         sprite.setPosition(target);
     }
@@ -39,8 +38,8 @@ void Plant::render(RenderWindow* window) {
 bool Plant::handle_mouse_pressed(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]) {
     Vector2f position = sprite.getPosition();
     Vector2f sprite_size = {sprite.getGlobalBounds().width, sprite.getGlobalBounds().height};
-    if(is_clicked) {
-        is_clicked = false;
+    if(!is_planted) {
+        is_planted = true;
         return (planting(mouse_position, tiles_status));
     }
     return true;
@@ -53,6 +52,7 @@ bool Plant::is_mouse_on_playground(Vector2i mouse_position){
         return false;
     return true;
 }
+
 
 pair<float, float> Plant::get_center_of_current_tile(int height_index, int width_index, float tile_width, float tile_height){
         return make_pair((width_index - 0.5) * tile_width, (height_index - 0.5) * tile_height);
@@ -87,9 +87,8 @@ bool Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TIL
         pair<float, float> center_of_tile = get_center_of_current_tile(height_index, width_index, tile_width, tile_height); 
         sprite.setPosition(MIN_WIDTH + center_of_tile.first - sprite.getTextureRect().width, MIN_HEIGHT + center_of_tile.second - sprite.getTextureRect().height);
     } else {
-        is_clicked = true;
+        is_planted = false;
     }
-    
     return true;
 }
 

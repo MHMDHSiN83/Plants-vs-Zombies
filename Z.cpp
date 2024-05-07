@@ -5,7 +5,7 @@ using namespace std;
 // Base class
 class Base {
 public:
-    virtual void print() const {
+    virtual void print() {
         cout << "Base" << endl;
     }
     virtual ~Base() {} // Making the base class polymorphic
@@ -14,7 +14,7 @@ public:
 // Derived class 1
 class Derived1 : public Base {
 public:
-    void print() const override {
+    void print() {
         cout << "Derived1" << endl;
     }
 };
@@ -22,7 +22,7 @@ public:
 // Derived class 2
 class Derived2 : public Base {
 public:
-    void print() const override {
+    void print() {
         cout << "Derived2" << endl;
     }
 };

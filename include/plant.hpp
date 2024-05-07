@@ -14,7 +14,6 @@ private:
     Sprite sprite;
     IntRect rect;
     int type;
-    bool is_clicked;
     bool is_planted;
     bool planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]);
     bool is_mouse_on_playground(Vector2i mouse_position);
