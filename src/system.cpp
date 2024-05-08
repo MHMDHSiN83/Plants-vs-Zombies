@@ -14,6 +14,11 @@ System::System() {
     cout << screenSize.x / (float)background_texture.getSize().x << ' ' << screenSize.x / (float)background_texture.getSize().y;
     background_sprite.setScale(screenSize.x / (float)background_texture.getSize().x, screenSize.y / (float)background_texture.getSize().y);
     background_sprite.setTexture(background_texture);
+    if(!music.openFromFile("assets/music/intro.ogg")){
+        exit(0);
+    }
+    music.setLoop(true);
+    music.play();
     for(int i = 0; i < PLANTS_NUMBER; i++)
         cards[i] = new Card(FIRST_CARD_POSITION, i);
     for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)

@@ -32,6 +32,7 @@ private:
     Texture background_texture;
     Sprite background_sprite;
     pair<pair<float, float>, pair<float, float>> planting_area;
+    Music music;
     bool tiles_status[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH];
     void update();
     void render();
