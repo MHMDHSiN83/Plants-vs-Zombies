@@ -2,22 +2,22 @@
 // #include "../include/plant.hpp"
 Card::Card(Vector2i first_card_position, int _type) {
     type = _type;
-    set_texture(type);
+    set_texture();
     rect.top = 0;
     rect.left = 0;
     rect.width = 280;
     rect.height = 174;
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
-    first_card_position.y += _type * 70;
+    first_card_position.y += _type * 140;
     Vector2f pos(first_card_position.x, first_card_position.y);
     sprite.setPosition(pos);
-    sprite.setScale(0.3,0.3);
+    sprite.setScale(0.6,0.6);
     is_clicked = false;
     timer = 0;
 }
 
-void Card::set_texture(int type) {
+void Card::set_texture() {
     switch (type)
     {
     case 0:
@@ -48,12 +48,13 @@ Card::~Card() {
 
 void Card::update(){
     if(is_clicked) {
-        sprite.setTexture(pressed_texture);
-        timer = (timer + 1) % 500;
-        if(timer == 0)
+        system_clock::time_point now = system_clock::now();
+        duration<double> distance = now - last_time_clicked;
+        if(distance.count() > SUNSHINE_TIMER) {
+            sprite.setTexture(texture);
             is_clicked = false;
-    } else
-        sprite.setTexture(texture);
+        }
+    }
 }
 
 
@@ -67,6 +68,8 @@ bool Card::handle_mouse_pressed(Vector2i mouse_position) {
     if(!is_clicked) {
         if (mouse_position.x >= position.x && mouse_position.x <= position.x + sprite_size.x &&
             mouse_position.y >= position.y && mouse_position.y <= position.y + sprite_size.y) {
+            sprite.setTexture(pressed_texture);
+            last_time_clicked = system_clock::now();
             is_clicked = true;
             return true;
         }
@@ -74,4 +77,7 @@ bool Card::handle_mouse_pressed(Vector2i mouse_position) {
     return false;
 }
 
-void Card::reset_timer() { is_clicked = false;}
+void Card::reset_card() { 
+    is_clicked = false;
+    sprite.setTexture(texture);
+}

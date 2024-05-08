@@ -2,13 +2,17 @@
 #include "../include/system.hpp"
 
 
-System::System(int width, int height) {
-    window.create(VideoMode(width, height), "PVZ", Style::Default);
+System::System() {
+    window.create(VideoMode::getDesktopMode(), "PVZ", Style::Default);
     window.setFramerateLimit(120);
     status = PLAYING;
     if(!background_texture.loadFromFile("assets/background1.png")) {
         exit(0);
     }
+    Vector2u screenSize = window.getSize();
+    cout << screenSize.x << ' ' << screenSize.y << endl;
+    cout << screenSize.x / (float)background_texture.getSize().x << ' ' << screenSize.x / (float)background_texture.getSize().y;
+    background_sprite.setScale(screenSize.x / (float)background_texture.getSize().x, screenSize.y / (float)background_texture.getSize().y);
     background_sprite.setTexture(background_texture);
     for(int i = 0; i < PLANTS_NUMBER; i++)
         cards[i] = new Card(FIRST_CARD_POSITION, i);
@@ -93,10 +97,6 @@ void System::handle_events() {
         case (Event::MouseButtonPressed):
             mouse_pressed(event);
             break;
-        case (Event::Resized):
-        
-
-            break;
         }
     }
     window.display();
@@ -111,6 +111,7 @@ void System::mouse_pressed(Event event) {
         case (PLAYING):
             handle_mouse_pressed_plants(mouse_position);
             handle_mouse_pressed_cards(mouse_position);
+            handle_mouse_pressed_sunshines(mouse_position);
             break;
         case (PAUSE_MENU):
             break;
@@ -140,8 +141,8 @@ void System::handle_mouse_pressed_plants(Vector2i mouse_position) {
     for (int i = 0; i < plants.size(); i++)
     {
         if(!(plants[i]->handle_mouse_pressed(mouse_position, tiles_status))) {
+            cards[plants[i]->get_card_index()]->reset_card();
             plants.pop_back();
-            cards[plants[i]->get_card_index()]->reset_timer();
         }
     }
     
@@ -202,10 +203,20 @@ void System::update_sunshines() {
     }
 }
 
+void System::handle_mouse_pressed_sunshines(Vector2i mouse_position) {
+    for (int i = 0; i < sunshines.size(); i++) {
+        if(sunshines[i]->handle_mouse_pressed(mouse_position)) {
+            sun += 25;
+            sunshines.erase(sunshines.begin() + i);
+        }
+    }    
+}
+
 void System::create_sunshine() {
-    sunshine_timer--;
-    if(sunshine_timer == 0) {
+    system_clock::time_point now = system_clock::now();
+    duration<double> distance = now - last_sunshine_time;
+    if(distance.count() > SUNSHINE_TIMER) {
+        last_sunshine_time = now;
         sunshines.push_back(new Sunshine);
-        sunshine_timer = 200;
     }
 }

@@ -19,7 +19,7 @@ enum Status {
 
 class System {
 public:
-    System(int width, int height);
+    System();
     ~System();
     void run();
 private:
@@ -46,7 +46,11 @@ private:
     void build_animation();
     void update_sunshines();
     void render_sunshines();
-    void create_sunshine();                     
-    int sunshine = 0;
-    int sunshine_timer = 200;
+    void handle_mouse_pressed_sunshines(Vector2i position);
+    void create_sunshine();
+    int sun = 0;
+    int sunshine_timer = SUNSHINE_TIMER;
+
+    system_clock::time_point last_sunshine_time = system_clock::now();
+    
 };

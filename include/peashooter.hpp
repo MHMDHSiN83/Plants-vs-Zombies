@@ -7,6 +7,8 @@ public:
     Peashooter(int type);
     void build_animation();
 private:
-        int freamsize1 = 20;
+    void store_textures();
+    vector<Texture> textures;
+        int number_of_idle_frames = 20;
         int health;
 };

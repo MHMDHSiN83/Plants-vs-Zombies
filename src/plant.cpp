@@ -11,8 +11,8 @@ Plant::Plant(int _type) {
     rect.height = 537;
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
-    Vector2f pos(FIRST_CARD_POSITION.x, FIRST_CARD_POSITION.y + _type * 70);
-    sprite.setScale(0.18,0.18);
+    Vector2f pos(FIRST_CARD_POSITION.x, FIRST_CARD_POSITION.y + _type * 140);
+    sprite.setScale(0.28,0.28);
     sprite.setPosition(pos);
     is_planted = false;
     type = _type;

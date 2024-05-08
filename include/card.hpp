@@ -8,7 +8,8 @@ public:
     void render(RenderWindow* window);
     void update();
     bool handle_mouse_pressed(Vector2i mouse_position);
-    void reset_timer();
+    void reset_card();
+    void set_texture();
 private:
 
     int type;
@@ -18,5 +19,6 @@ private:
     Sprite sprite;
     IntRect rect;
     int timer;
-    void set_texture(int type);
+    system_clock::time_point last_time_clicked;
+    
 };

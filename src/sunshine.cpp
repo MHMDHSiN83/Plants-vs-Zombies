@@ -24,6 +24,12 @@ void Sunshine::render(RenderWindow* window) {
     window->draw(sprite);
 }
 
-// void Sunshine::handle_mouse_pressed() {
-    
-// }
+bool Sunshine::handle_mouse_pressed(Vector2i mouse_position) {
+    Vector2f position = sprite.getPosition();
+    Vector2f sprite_size = {sprite.getGlobalBounds().width, sprite.getGlobalBounds().height};
+    if (mouse_position.x >= position.x && mouse_position.x <= position.x + sprite_size.x &&
+        mouse_position.y >= position.y && mouse_position.y <= position.y + sprite_size.y) {
+        return true;
+    }
+    return false;    
+}

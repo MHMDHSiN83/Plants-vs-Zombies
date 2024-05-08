@@ -9,7 +9,7 @@ public:
     ~Sunshine();
     void update();
     void render(RenderWindow* Window);
-    // void handle_mouse_pressed();
+    bool handle_mouse_pressed(Vector2i mouse_position);
 private:
     Texture texture;
     Sprite sprite;
