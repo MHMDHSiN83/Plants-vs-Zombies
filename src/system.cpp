@@ -145,12 +145,13 @@ void System::render_plants() {
 void System::handle_mouse_pressed_plants(Vector2i mouse_position) {
     for (int i = 0; i < plants.size(); i++)
     {
-        if(!(plants[i]->handle_mouse_pressed(mouse_position, tiles_status))) {
+        int result = plants[i]->handle_mouse_pressed(mouse_position, tiles_status);
+        if(result == 0) {
             cards[plants[i]->get_card_index()]->reset_card();
             plants.pop_back();
-        }
+        } else if(result == 1)
+            cards[plants[i]->get_card_index()]->start_timer();
     }
-    
 }
 
 void System::update_plants(Vector2i position) {

@@ -25,7 +25,6 @@ void Plant::build_animation() {}
 
 void Plant::update(Vector2i position){
     if(!is_planted){
-        // Vector2f target(position.x, position.y);
         Vector2f target(position.x - sprite.getGlobalBounds().width/2, position.y - sprite.getGlobalBounds().height/2);
         sprite.setPosition(target);
     }
@@ -37,14 +36,14 @@ void Plant::render(RenderWindow* window) {
 }
 
 
-bool Plant::handle_mouse_pressed(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]) {
+int Plant::handle_mouse_pressed(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]) {
     Vector2f position = sprite.getPosition();
     Vector2f sprite_size = {sprite.getGlobalBounds().width, sprite.getGlobalBounds().height};
     if(!is_planted) {
         is_planted = true;
         return (planting(mouse_position, tiles_status));
     }
-    return true;
+    return 2;
 }
 
 bool Plant::is_mouse_on_playground(Vector2i mouse_position){
@@ -60,9 +59,9 @@ pair<float, float> Plant::get_center_of_current_tile(int height_index, int width
         return make_pair((width_index - 0.5) * tile_width, (height_index - 0.5) * tile_height);
 }
 
-bool Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]) {
+int Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]) {
     if(!is_mouse_on_playground(mouse_position)) {
-        return false;
+        return 0;
     }
 
     float tile_width = (MAX_WIDTH - MIN_WIDTH) / NUMBER_OF_TILE_WIDTH;
@@ -71,27 +70,24 @@ bool Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TIL
     int width_index = 0, height_index = 0;
     for (float i = MIN_WIDTH; i < MAX_WIDTH; i += tile_width)
     {
-        if(mouse_position.x < i) {
+        if(mouse_position.x < i)
             break;
-        }
         width_index++;
-        
     }
     for (float i = MIN_HEIGHT; i < MAX_HEIGHT; i += tile_height)
     {
-        if(mouse_position.y < i) {
+        if(mouse_position.y < i)
             break;
-        }
         height_index++;
     }
     if(!tiles_status[width_index][height_index]) {
         tiles_status[width_index][height_index] = true;
         pair<float, float> center_of_tile = get_center_of_current_tile(height_index, width_index, tile_width, tile_height); 
         sprite.setPosition(MIN_WIDTH + center_of_tile.first - sprite.getGlobalBounds().width/2, MIN_HEIGHT + center_of_tile.second - sprite.getGlobalBounds().height/2);
-    } else {
-        is_planted = false;
-    }
-    return true;
+        return 1;
+    } 
+    is_planted = false;
+    return 2;
 }
 
 

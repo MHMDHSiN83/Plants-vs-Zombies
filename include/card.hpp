@@ -9,6 +9,7 @@ public:
     void update();
     bool handle_mouse_pressed(Vector2i mouse_position);
     void reset_card();
+    void start_timer(); 
     void set_texture();
 private:
 

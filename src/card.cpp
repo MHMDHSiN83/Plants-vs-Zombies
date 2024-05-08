@@ -69,8 +69,6 @@ bool Card::handle_mouse_pressed(Vector2i mouse_position) {
         if (mouse_position.x >= position.x && mouse_position.x <= position.x + sprite_size.x &&
             mouse_position.y >= position.y && mouse_position.y <= position.y + sprite_size.y) {
             sprite.setTexture(pressed_texture);
-            last_time_clicked = system_clock::now();
-            is_clicked = true;
             return true;
         }
     }
@@ -80,4 +78,9 @@ bool Card::handle_mouse_pressed(Vector2i mouse_position) {
 void Card::reset_card() { 
     is_clicked = false;
     sprite.setTexture(texture);
+}
+
+void Card::start_timer() { 
+    last_time_clicked = system_clock::now();
+    is_clicked = true;
 }
