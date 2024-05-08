@@ -46,7 +46,7 @@ private:
     void build_animation();
     void update_sunshines();
     void render_sunshines();
-    void create_sunshine();
+    void create_sunshine();                     
     int sunshine = 0;
     int sunshine_timer = 200;
 };

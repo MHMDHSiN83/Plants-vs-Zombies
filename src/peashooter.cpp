@@ -8,13 +8,15 @@ Peashooter::Peashooter(int _type) : Plant(_type) {
 void Peashooter::build_animation() {
     if(!is_planted) return;
     timer++;
-    int x = timer/7;
-    x = (x + 1) % 8;
-    x++;
-   // if(x == 9){x = 1;}
-    string x_in_string = to_string(x);
-    texture.loadFromFile("assets/peashooter/peashooter-idle/" + x_in_string + ".png");
-    //texture.loadFromFile("assets/AA.png");
+    int fream = timer/5;
+    fream = (fream + 1) % freamsize1;
+    fream++;
+    string fream_in_string = to_string(fream);
+    texture.loadFromFile("assets/peashooter/peashooters/" + fream_in_string + ".png");
+    
+    // texture.loadFromFile("assets/peashooter/peashooter-idle/1.png");
+    //texture.loadFromFile("assets/peashooter/peashooter-idle/" + fream_in_string + ".png");
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
+    // sprite.setScale(0.05, 0.05);
 }

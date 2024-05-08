@@ -2,18 +2,18 @@
 
 Plant::Plant(int _type) {
 
-    if(!texture.loadFromFile("assets/peashooter.png")) {
+    if(!texture.loadFromFile("assets/peashooter/peashooters/1.png")) {
         exit(0);
     }
     rect.top = 0;
     rect.left = 0;
-    rect.width = 39;
-    rect.height = 38;
+    rect.width = 465;
+    rect.height = 537;
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
     Vector2f pos(FIRST_CARD_POSITION.x, FIRST_CARD_POSITION.y + _type * 70);
+    sprite.setScale(0.18,0.18);
     sprite.setPosition(pos);
-    sprite.setScale(2,2);
     is_planted = false;
     type = _type;
 }
@@ -25,7 +25,8 @@ void Plant::build_animation() {}
 
 void Plant::update(Vector2i position){
     if(!is_planted){
-        Vector2f target(position.x - sprite.getTextureRect().width, position.y - sprite.getTextureRect().height);
+        // Vector2f target(position.x, position.y);
+        Vector2f target(position.x - sprite.getGlobalBounds().width/2, position.y - sprite.getGlobalBounds().height/2);
         sprite.setPosition(target);
     }
 }
@@ -86,7 +87,7 @@ bool Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TIL
     if(!tiles_status[width_index][height_index]) {
         tiles_status[width_index][height_index] = true;
         pair<float, float> center_of_tile = get_center_of_current_tile(height_index, width_index, tile_width, tile_height); 
-        sprite.setPosition(MIN_WIDTH + center_of_tile.first - sprite.getTextureRect().width, MIN_HEIGHT + center_of_tile.second - sprite.getTextureRect().height);
+        sprite.setPosition(MIN_WIDTH + center_of_tile.first - sprite.getGlobalBounds().width/2, MIN_HEIGHT + center_of_tile.second - sprite.getGlobalBounds().height/2);
     } else {
         is_planted = false;
     }
