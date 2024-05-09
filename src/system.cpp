@@ -10,15 +10,15 @@ System::System() {
         exit(0);
     }
     Vector2u screenSize = window.getSize();
-    cout << screenSize.x << ' ' << screenSize.y << endl;
-    cout << screenSize.x / (float)background_texture.getSize().x << ' ' << screenSize.x / (float)background_texture.getSize().y;
+   // cout << screenSize.x << ' ' << screenSize.y << endl;
+   // cout << screenSize.x / (float)background_texture.getSize().x << ' ' << screenSize.x / (float)background_texture.getSize().y;
     background_sprite.setScale(screenSize.x / (float)background_texture.getSize().x, screenSize.y / (float)background_texture.getSize().y);
     background_sprite.setTexture(background_texture);
-    if(!music.openFromFile("assets/music/intro.ogg")){
+    /*if(!music.openFromFile("assets/music/intro.ogg")){
         exit(0);
     }
     music.setLoop(true);
-    music.play();
+    music.play();*/
     for(int i = 0; i < PLANTS_NUMBER; i++)
         cards[i] = new Card(FIRST_CARD_POSITION, i);
     for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
@@ -170,11 +170,29 @@ void System::render_cards() {
     
 }
 
+void System::creat_plant(int i){
+    switch (i)
+    {
+        case 0:
+            plants.push_back(new Peashooter(i));
+            break;
+        case 1:
+            plants.push_back(new Sunflower(i));
+            break;
+        case 2:
+            plants.push_back(new Walnut(i));
+            break;
+        case 3:
+            plants.push_back(new IcePeashooter(i));
+            break;
+    }
+}
+
 void System::handle_mouse_pressed_cards(Vector2i mouse_position) {
     for (int i = 0; i < PLANTS_NUMBER; i++)
     {
         if(cards[i]->handle_mouse_pressed(mouse_position)) {
-            plants.push_back(new Peashooter(i));
+            creat_plant(i);
         }
     }
     

@@ -1,10 +1,7 @@
 #include "../include/plant.hpp"
 
 Plant::Plant(int _type) {
-
-    if(!texture.loadFromFile("assets/peashooter/peashooters/1.png")) {
-        exit(0);
-    }
+    type = _type;
     rect.top = 0;
     rect.left = 0;
     rect.width = 465;
@@ -15,7 +12,6 @@ Plant::Plant(int _type) {
     sprite.setScale(0.28,0.28);
     sprite.setPosition(pos);
     is_planted = false;
-    type = _type;
 }
 
 Plant::~Plant() {

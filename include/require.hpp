@@ -27,7 +27,7 @@ const int MAX_HEIGHT = 960; // 970
 const int NUMBER_OF_TILE_WIDTH = 9;
 const int NUMBER_OF_TILE_HEIGHT = 5;
 
-const int PLANTS_NUMBER = 3;
+const int PLANTS_NUMBER = 4;
 
 const Vector2i FIRST_CARD_POSITION = {75,250};
 const int SUNSHINE_TIMER = 2;

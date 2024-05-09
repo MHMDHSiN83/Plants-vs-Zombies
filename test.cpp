@@ -18,7 +18,7 @@ int main() {
     duration<double> elapsed_seconds = end - start;
     double x = elapsed_seconds.count();
     // Output the duration
-    cout << "Time taken: " << x << " seconds\n";
+    //cout << "Time taken: " << x << " seconds\n";
 
     return 0;
 }

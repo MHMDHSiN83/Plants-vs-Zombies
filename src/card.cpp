@@ -38,6 +38,12 @@ void Card::set_texture() {
         if(!pressed_texture.loadFromFile("assets/some picture/walnut_pressed.png"))
             exit(0);
         break;
+    case 3:
+        if(!texture.loadFromFile("assets/some picture/peashooter_card.png"))
+            exit(0);
+        if(!pressed_texture.loadFromFile("assets/some picture/peashooter_pressed.png"))
+            exit(0);
+        break;
     }
 }
 

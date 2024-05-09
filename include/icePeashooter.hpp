@@ -2,13 +2,13 @@
 #include "require.hpp"
 #include "plant.hpp"
 
-class Sunflower : public Plant {
+class IcePeashooter : public Plant {
 public:
-    Sunflower(int type);
+    IcePeashooter(int type);
     void build_animation();
 private:
     void store_textures();
     vector<Texture> textures;
-        int number_of_idle_frames = 31;
+        int number_of_idle_frames = 18;
         int health;
 };

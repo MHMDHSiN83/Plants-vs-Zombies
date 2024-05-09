@@ -6,6 +6,7 @@
 #include "sunflower.hpp"
 #include "walnut.hpp"
 #include "sunshine.hpp"
+#include "icePeashooter.hpp"
 
 
 enum Status {
@@ -49,6 +50,7 @@ private:
     void render_sunshines();
     void handle_mouse_pressed_sunshines(Vector2i position);
     void create_sunshine();
+    void creat_plant(int i);
     int sun = 0;
     int sunshine_timer = SUNSHINE_TIMER;
 

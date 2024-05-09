@@ -2,6 +2,10 @@
 
 
 Peashooter::Peashooter(int _type) : Plant(_type) {
+    z = 0;
+    if(!texture.loadFromFile("assets/peashooter/peashooters/1.png")) {
+        exit(0);
+    }
     store_textures();
 }
 
