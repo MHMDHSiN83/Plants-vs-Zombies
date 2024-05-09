@@ -5,7 +5,7 @@
 
 class Sunshine {
 public:
-    Sunshine();
+    Sunshine(Vector2f position);
     ~Sunshine();
     void update();
     void render(RenderWindow* Window);

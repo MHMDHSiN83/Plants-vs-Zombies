@@ -10,15 +10,16 @@ System::System() {
         exit(0);
     }
     Vector2u screenSize = window.getSize();
-   // cout << screenSize.x << ' ' << screenSize.y << endl;
-   // cout << screenSize.x / (float)background_texture.getSize().x << ' ' << screenSize.x / (float)background_texture.getSize().y;
+    // cout << screenSize.x << ' ' << screenSize.y << endl;
+    // cout << screenSize.x / (float)background_texture.getSize().x << ' ' << screenSize.x / (float)background_texture.getSize().y;
     background_sprite.setScale(screenSize.x / (float)background_texture.getSize().x, screenSize.y / (float)background_texture.getSize().y);
     background_sprite.setTexture(background_texture);
-    /*if(!music.openFromFile("assets/music/intro.ogg")){
-        exit(0);
-    }
-    music.setLoop(true);
-    music.play();*/
+    score_box = new ScoreBox;
+    // if(!music.openFromFile("assets/music/intro.ogg")){
+    //     exit(0);
+    // }
+    // music.setLoop(true);
+    // music.play();
     for(int i = 0; i < PLANTS_NUMBER; i++)
         cards[i] = new Card(FIRST_CARD_POSITION, i);
     for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
@@ -76,6 +77,7 @@ void System::render() {
         render_plants();
         render_cards();
         render_sunshines();
+        score_box->render(&window, sun);
         break;
     case (PAUSE_MENU):
         break;
@@ -241,6 +243,14 @@ void System::create_sunshine() {
     duration<double> distance = now - last_sunshine_time;
     if(distance.count() > SUNSHINE_TIMER) {
         last_sunshine_time = now;
-        sunshines.push_back(new Sunshine);
+        Vector2f sunshine_position(generate_random_number_between(MIN_WIDTH, MAX_WIDTH), 0);
+        sunshines.push_back(new Sunshine(sunshine_position));
     }
+}
+int System::generate_random_number_between(int start, int end) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(start, end);
+    int random_number = dis(gen);
+    return random_number;
 }

@@ -6,6 +6,7 @@
 #include "sunflower.hpp"
 #include "walnut.hpp"
 #include "sunshine.hpp"
+#include "scoreBox.hpp"
 #include "icePeashooter.hpp"
 
 
@@ -53,7 +54,8 @@ private:
     void creat_plant(int i);
     int sun = 0;
     int sunshine_timer = SUNSHINE_TIMER;
-
+    int generate_random_number_between(int start, int end);
     system_clock::time_point last_sunshine_time = system_clock::now();
+    ScoreBox* score_box;
     
 };

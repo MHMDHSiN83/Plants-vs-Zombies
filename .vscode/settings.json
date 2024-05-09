@@ -47,7 +47,12 @@
     "ctime": "cpp",
     "map": "cpp",
     "fstream": "cpp",
-    "chrono": "cpp"
+    "chrono": "cpp",
+    "set": "cpp",
+    "ratio": "cpp",
+    "semaphore": "cpp",
+    "stop_token": "cpp",
+    "thread": "cpp"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",

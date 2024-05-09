@@ -1,6 +1,7 @@
+
 #include "../include/sunshine.hpp"
 
-Sunshine::Sunshine() {
+Sunshine::Sunshine(Vector2f position) {
     if(!texture.loadFromFile("assets/some picture/sun.png")) {
         exit(0);
     }
@@ -10,9 +11,9 @@ Sunshine::Sunshine() {
     rect.height = 116;
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
-    Vector2f pos(100.0, 0.0);
-    sprite.setPosition(pos);
-    sprite.setScale(0.5,0.5);
+    // Vector2f pos(100.0, 0.0);
+    sprite.setPosition(position);
+    // sprite.setScale(0.5,0.5);
 }
 
 
