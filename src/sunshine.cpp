@@ -11,9 +11,7 @@ Sunshine::Sunshine(Vector2f position) {
     rect.height = 116;
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
-    // Vector2f pos(100.0, 0.0);
     sprite.setPosition(position);
-    // sprite.setScale(0.5,0.5);
 }
 
 
@@ -34,3 +32,10 @@ bool Sunshine::handle_mouse_pressed(Vector2i mouse_position) {
     }
     return false;    
 }
+
+bool Sunshine::is_out(unsigned screen_height) {
+    if(sprite.getPosition().y >= screen_height)
+        return true;
+    return false;
+}
+

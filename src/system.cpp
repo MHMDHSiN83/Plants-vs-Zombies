@@ -9,29 +9,18 @@ System::System() {
     if(!background_texture.loadFromFile("assets/background1.png")) {
         exit(0);
     }
-    Vector2u screenSize = window.getSize();
-    // cout << screenSize.x << ' ' << screenSize.y << endl;
-    // cout << screenSize.x / (float)background_texture.getSize().x << ' ' << screenSize.x / (float)background_texture.getSize().y;
-    background_sprite.setScale(screenSize.x / (float)background_texture.getSize().x, screenSize.y / (float)background_texture.getSize().y);
+    screen_size = window.getSize();
+    background_sprite.setScale(screen_size.x / (float)background_texture.getSize().x, screen_size.y / (float)background_texture.getSize().y);
     background_sprite.setTexture(background_texture);
     score_box = new ScoreBox;
-    // if(!music.openFromFile("assets/music/intro.ogg")){
-    //     exit(0);
-    // }
-    // music.setLoop(true);
-    // music.play();
+
+    // play_music();
+    
     for(int i = 0; i < PLANTS_NUMBER; i++)
         cards[i] = new Card(FIRST_CARD_POSITION, i);
     for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
         for (int j = 0; j < NUMBER_OF_TILE_WIDTH; j++)
             tiles_status[i][j] = 0;
-    // plant = new Plant();
-    // plants.push_back(new Plant);
-    // planting_area.first = make_pair(248, 993);
-    // planting_area.second = make_pair(78, 573);
-    // float tile_width = (993 - 248) / 9;
-    // float tile_height = (573 - 78) / 5;
-    
 }
 
 System:: ~System() {}
@@ -55,6 +44,8 @@ void System::update() {
         build_animation();
         update_sunshines();
         create_sunshine();
+        update_zombies();
+        create_zombie();
         break;
     case (PAUSE_MENU):
         break;
@@ -77,6 +68,7 @@ void System::render() {
         render_plants();
         render_cards();
         render_sunshines();
+        render_zombies();
         score_box->render(&window, sun);
         break;
     case (PAUSE_MENU):
@@ -109,6 +101,13 @@ void System::handle_events() {
     window.display();
 }
 
+void System::play_music() {
+    if(!music.openFromFile("assets/music/intro.ogg")){
+        exit(0);
+    }
+    music.setLoop(true);
+    music.play();
+}
 
 void System::mouse_pressed(Event event) {
     if (event.mouseButton.button == Mouse::Right)
@@ -131,17 +130,11 @@ void System::mouse_pressed(Event event) {
   }
 }
 
-
-
-
-
-
 void System::render_plants() {
     for (Plant* plant : plants)
     {
         plant->render(&window);
     }
-    
 }
 
 void System::handle_mouse_pressed_plants(Vector2i mouse_position) {
@@ -151,8 +144,9 @@ void System::handle_mouse_pressed_plants(Vector2i mouse_position) {
         if(result == 0) {
             cards[plants[i]->get_card_index()]->reset_card();
             plants.pop_back();
-        } else if(result == 1)
+        } else if(result == 1) {
             cards[plants[i]->get_card_index()]->start_timer();
+        }
     }
 }
 
@@ -172,7 +166,7 @@ void System::render_cards() {
     
 }
 
-void System::creat_plant(int i){
+void System::create_plant(int i){
     switch (i)
     {
         case 0:
@@ -194,7 +188,7 @@ void System::handle_mouse_pressed_cards(Vector2i mouse_position) {
     for (int i = 0; i < PLANTS_NUMBER; i++)
     {
         if(cards[i]->handle_mouse_pressed(mouse_position)) {
-            creat_plant(i);
+            create_plant(i);
         }
     }
     
@@ -224,8 +218,12 @@ void System::render_sunshines() {
 }
 
 void System::update_sunshines() {
-    for (Sunshine* sunshine: sunshines) {
-        sunshine->update();
+    for (int i = 0; i < sunshines.size(); i++) {
+        sunshines[i]->update();
+        if(sunshines[i]->is_out(screen_size.y)) {
+            sunshines.erase(sunshines.begin() + i);
+            i--;
+        }
     }
 }
 
@@ -234,6 +232,7 @@ void System::handle_mouse_pressed_sunshines(Vector2i mouse_position) {
         if(sunshines[i]->handle_mouse_pressed(mouse_position)) {
             sun += 25;
             sunshines.erase(sunshines.begin() + i);
+            i--;
         }
     }    
 }
@@ -253,4 +252,32 @@ int System::generate_random_number_between(int start, int end) {
     uniform_int_distribution<> dis(start, end);
     int random_number = dis(gen);
     return random_number;
+}
+
+
+void System::create_zombie() {
+    system_clock::time_point now = system_clock::now();
+    duration<double> distance = now - last_zombie_time;
+    if(distance.count() > ZOMBIE_TIMER) {
+        last_zombie_time = now;
+        Vector2f zombie_position(1920, calculate_height_position(generate_random_number_between(1,5)));
+        zombies.push_back(new Zombie(zombie_position));
+    }
+}
+
+void System::render_zombies() {
+    for (Zombie* zombie: zombies) {
+        zombie->render(&window);
+    }
+    
+}
+
+void System::update_zombies() {
+    for (Zombie* zombie: zombies) {
+        zombie->update();
+    }
+}
+
+int System::calculate_height_position(int tile) {
+    return (MIN_HEIGHT + (tile - 0.5) * TILE_HEIGHT);
 }

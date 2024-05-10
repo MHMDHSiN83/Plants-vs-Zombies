@@ -42,10 +42,10 @@ int Plant::handle_mouse_pressed(Vector2i mouse_position, bool (&tiles_status)[NU
     return 2;
 }
 
-bool Plant::is_mouse_on_playground(Vector2i mouse_position){
-    if(mouse_position.x < MIN_WIDTH || mouse_position.x > MAX_WIDTH)
+bool Plant::is_mouse_on_playground(int width_index, int height_index){
+    if(width_index > NUMBER_OF_TILE_WIDTH || width_index < 1)
         return false;
-    if(mouse_position.y < MIN_HEIGHT || mouse_position.y > MAX_HEIGHT)
+    if(height_index > NUMBER_OF_TILE_HEIGHT || height_index < 1)
         return false;
     return true;
 }
@@ -56,32 +56,29 @@ pair<float, float> Plant::get_center_of_current_tile(int height_index, int width
 }
 
 int Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]) {
-    if(!is_mouse_on_playground(mouse_position)) {
-        return 0;
-    }
-
-    float tile_width = (MAX_WIDTH - MIN_WIDTH) / NUMBER_OF_TILE_WIDTH;
-    float tile_height = (MAX_HEIGHT - MIN_HEIGHT) / NUMBER_OF_TILE_HEIGHT;
 
     int width_index = 0, height_index = 0;
-    for (float i = MIN_WIDTH; i < MAX_WIDTH; i += tile_width)
+    for (float i = MIN_WIDTH; i < MAX_WIDTH; i += TILE_WIDTH)
     {
         if(mouse_position.x < i)
             break;
         width_index++;
     }
-    for (float i = MIN_HEIGHT; i < MAX_HEIGHT; i += tile_height)
+    for (float i = MIN_HEIGHT; i < MAX_HEIGHT; i += TILE_HEIGHT)
     {
         if(mouse_position.y < i)
             break;
         height_index++;
     }
-    if(!tiles_status[width_index][height_index]) {
-        tiles_status[width_index][height_index] = true;
-        pair<float, float> center_of_tile = get_center_of_current_tile(height_index, width_index, tile_width, tile_height); 
+    if(!is_mouse_on_playground(width_index, height_index))
+        return 0;
+    
+    if(!tiles_status[height_index - 1][width_index - 1]) {
+        tiles_status[height_index - 1][width_index - 1] = 1;
+        pair<float, float> center_of_tile = get_center_of_current_tile(height_index, width_index, TILE_WIDTH, TILE_HEIGHT); 
         sprite.setPosition(MIN_WIDTH + center_of_tile.first - sprite.getGlobalBounds().width/2, MIN_HEIGHT + center_of_tile.second - sprite.getGlobalBounds().height/2);
         return 1;
-    } 
+    }
     is_planted = false;
     return 2;
 }

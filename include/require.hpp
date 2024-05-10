@@ -29,9 +29,14 @@ const int MAX_HEIGHT = 960; // 970
 const int NUMBER_OF_TILE_WIDTH = 9;
 const int NUMBER_OF_TILE_HEIGHT = 5;
 
+
+const float TILE_WIDTH = (MAX_WIDTH - MIN_WIDTH) / NUMBER_OF_TILE_WIDTH;
+const float TILE_HEIGHT = (MAX_HEIGHT - MIN_HEIGHT) / NUMBER_OF_TILE_HEIGHT;
+
 const int PLANTS_NUMBER = 4;
 
 const Vector2i FIRST_CARD_POSITION = {75,250};
-const int SUNSHINE_TIMER = 2;
+const int SUNSHINE_TIMER = 4;
+const int ZOMBIE_TIMER = 4;
 
 

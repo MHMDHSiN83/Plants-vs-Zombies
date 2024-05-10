@@ -19,6 +19,8 @@ ScoreBox::ScoreBox() {
 }
 
 void ScoreBox::render(RenderWindow* window, int sun) {
+    
+
     window->draw(rectangle);
     FloatRect textBounds = text.getLocalBounds();
     text.setString(to_string(sun));
