@@ -1,5 +1,6 @@
 #pragma once
 #include "require.hpp"
+#include "bullet.hpp"
 
 class Plant {
 public:
@@ -10,16 +11,17 @@ public:
     virtual void build_animation();
     int handle_mouse_pressed(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]);
     int get_card_index();
+    virtual Bullet* shoot();
 protected:
     Texture texture;
     Sprite sprite;
     IntRect rect;
     int type;
-    int z;
     bool is_planted;
     int planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]);
     bool is_mouse_on_playground(int width_index, int height_index);
     pair<float, float> get_center_of_current_tile(int height_index, int width_index, float tile_width, float tile_height);
     int timer = 0;
+    Clock action_clock;
     void set_size(int type);
 };

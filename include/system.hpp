@@ -2,6 +2,7 @@
 
 #include "require.hpp"
 #include "card.hpp"
+#include "attackingPlant.hpp"
 #include "peashooter.hpp"
 #include "sunflower.hpp"
 #include "walnut.hpp"
@@ -9,6 +10,7 @@
 #include "scoreBox.hpp"
 #include "icePeashooter.hpp"
 #include "zombie.hpp"
+#include "bullet.hpp"
 
 
 enum Status {
@@ -31,6 +33,7 @@ private:
     vector<Plant*> plants;
     vector<Sunshine*> sunshines;
     vector<Zombie*> zombies;
+    vector<Bullet*> bullets;
     Card* cards[PLANTS_NUMBER];
     Texture background_texture;
     Sprite background_sprite;
@@ -55,17 +58,18 @@ private:
     void create_sunshine();
     void create_plant(int i);
     int sun = 0;
+    Clock sunshine_clock;
     int sunshine_timer = SUNSHINE_TIMER;
     int generate_random_number_between(int start, int end);
-    system_clock::time_point last_sunshine_time = system_clock::now();
     ScoreBox* score_box;
     void create_zombie();
     void update_zombies();
     void render_zombies();
     void build_animation_of_plants();
     void build_animation_of_zombie();
-    system_clock::time_point last_zombie_time = system_clock::now();
+    Clock zombie_clock;
     Vector2u screen_size;
     int calculate_height_position(int tile);
-    
+    void update_bullets();
+    void render_bullets();
 };

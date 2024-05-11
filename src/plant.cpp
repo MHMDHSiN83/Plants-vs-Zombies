@@ -106,3 +106,5 @@ int Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE
 
 
 int Plant::get_card_index() { return type; }
+
+Bullet* Plant::shoot() { return NULL; }

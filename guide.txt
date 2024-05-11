@@ -1,0 +1,21 @@
+regular-10-50-5-7,hairMetalGargantuar-20-80-6-5
+peashooter-5-40-5-5-7-4,snowpea-8-30-9-5-5-6,kernelPult-15-20-10-8-7-8,sunflower-0-30-10-12-0-2,walnut-0-200-10-0-0-2
+100-10-3-1
+10-10
+
+
+
+ZOMBIES: regular-10-50-5-7, hairMetalGargantuar-20-80-6-5
+% type - damage - health - hit rate9 - speed
+PLANTS: peashooter-5-40-5-5-7-4, snowpea-8-30-9-5-5-6,
+kernelPult-15-20-10-8-7-8, sunflower-0-30-10-12-0-2, walnut-0-200-10-0-0-2
+% type - damage - health - cooldown - hit rate - speed - price
+ATTACKS: 100-10-3-1
+% at first 10 seconds 3 zombies would appear, and in the next 10 seconds
+(10, 20) the number of zombies that would appear would change by 1 (so 4
+zombies would appear in this 10 seconds) and it continues like this,
+zombies would attack for a total of 100 seconds (i.e. after 100 seconds
+attack ended either you killed all of them or your brain has been eaten by
+them!)
+SUN: 10-10
+% vertical speed - interval

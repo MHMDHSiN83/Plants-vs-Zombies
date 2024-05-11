@@ -2,7 +2,6 @@
 
 
 Peashooter::Peashooter(int _type) : Plant(_type) {
-    z = 0;
     if(!texture.loadFromFile("assets/peashooter/peashooters/1.png")) {
         exit(0);
     }
@@ -18,6 +17,7 @@ void Peashooter::build_animation() {
 }
 
 void Peashooter::store_textures() {
+    
     for (int i = 1; i <= number_of_idle_frames; i++)
     {
         Texture new_texture;

@@ -54,11 +54,11 @@ Card::~Card() {
 
 void Card::update(){
     if(is_clicked) {
-        system_clock::time_point now = system_clock::now();
-        duration<double> distance = now - last_time_clicked;
-        if(distance.count() > SUNSHINE_TIMER) {
+        Time elapsed = clock.getElapsedTime();
+        if(elapsed.asSeconds() > 2) {
             sprite.setTexture(texture);
             is_clicked = false;
+            clock.restart();
         }
     }
 }
@@ -87,6 +87,6 @@ void Card::reset_card() {
 }
 
 void Card::start_timer() { 
-    last_time_clicked = system_clock::now();
+    clock.restart();
     is_clicked = true;
 }

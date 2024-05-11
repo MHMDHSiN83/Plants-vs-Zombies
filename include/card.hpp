@@ -20,6 +20,5 @@ private:
     Sprite sprite;
     IntRect rect;
     int timer;
-    system_clock::time_point last_time_clicked;
-    
+    Clock clock;
 };

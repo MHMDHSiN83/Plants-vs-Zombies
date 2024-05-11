@@ -1,20 +1,24 @@
 #pragma once
 #include "require.hpp"
 #include "plant.hpp"
+// #include "bullet.hpp"
 
-class Peashooter : public Plant {
+class AttackingPlant : public Plant {
 public:
-    Peashooter(int type);
+    AttackingPlant(int type);
     void build_animation();
+    Bullet* shoot();
+
 private:
     void store_textures();
     vector<Texture> textures;
-    int number_of_idle_frames = 20;
+    int number_of_idle_frames;
     int health;
-    // damage - health - cooldown - hit rate - speed - price
     int damage;
     int cooldown;
     int hit_rate;
     int speed;
     int price;
+    float speed_effect;
+
 };

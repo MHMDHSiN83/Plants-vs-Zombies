@@ -46,6 +46,7 @@ void System::update() {
         create_sunshine();
         update_zombies();
         create_zombie();
+        update_bullets();
         break;
     case (PAUSE_MENU):
         break;
@@ -67,9 +68,10 @@ void System::render() {
         window.draw(background_sprite);
         render_plants();
         render_cards();
-        render_sunshines();
         render_zombies();
         score_box->render(&window, sun);
+        render_bullets();
+        render_sunshines();
         break;
     case (PAUSE_MENU):
         break;
@@ -154,6 +156,9 @@ void System::update_plants(Vector2i position) {
     for (Plant* plant : plants)
     {
         plant->update(position);
+        Bullet* bullet = plant->shoot();
+        if(bullet != NULL)
+            bullets.push_back(bullet);
     }
 }
 
@@ -170,7 +175,7 @@ void System::create_plant(int i){
     switch (i)
     {
         case 0:
-            plants.push_back(new Peashooter(i));
+            plants.push_back(new AttackingPlant(i));
             break;
         case 1:
             plants.push_back(new Sunflower(i));
@@ -179,7 +184,7 @@ void System::create_plant(int i){
             plants.push_back(new Walnut(i));
             break;
         case 3:
-            plants.push_back(new IcePeashooter(i));
+            plants.push_back(new AttackingPlant(i));
             break;
     }
 }
@@ -231,12 +236,11 @@ void System::handle_mouse_pressed_sunshines(Vector2i mouse_position) {
 }
 
 void System::create_sunshine() {
-    system_clock::time_point now = system_clock::now();
-    duration<double> distance = now - last_sunshine_time;
-    if(distance.count() > SUNSHINE_TIMER) {
-        last_sunshine_time = now;
+    Time elapsed = sunshine_clock.getElapsedTime();
+    if(elapsed.asSeconds() > SUNSHINE_TIMER) {
         Vector2f sunshine_position(generate_random_number_between(MIN_WIDTH, MAX_WIDTH), 0);
         sunshines.push_back(new Sunshine(sunshine_position));
+        sunshine_clock.restart();
     }
 }
 int System::generate_random_number_between(int start, int end) {
@@ -249,17 +253,11 @@ int System::generate_random_number_between(int start, int end) {
 
 
 void System::create_zombie() {
-    system_clock::time_point now = system_clock::now();
-    duration<double> distance = now - last_zombie_time;
-    if(distance.count() > ZOMBIE_TIMER) {
-        last_zombie_time = now;
-        // Vector2f zombie_position(1920, calculate_height_position(5));
-        // Vector2f zombie_position(1920, calculate_height_position(2));
-        // Vector2f zombie_position(1920, calculate_height_position(3));
-        // Vector2f zombie_position(1920, calculate_height_position(4));
-        // Vector2f zombie_position(1920, calculate_height_position(5));
+    Time elapsed = zombie_clock.getElapsedTime();
+    if(elapsed.asSeconds() > ZOMBIE_TIMER) {
         Vector2f zombie_position(1920, calculate_height_position(generate_random_number_between(1,5)));
         zombies.push_back(new Zombie(zombie_position));
+        zombie_clock.restart();
     }
 }
 
@@ -297,4 +295,20 @@ void System::build_animation_of_zombie(){
 
 int System::calculate_height_position(int tile) {
     return (MIN_HEIGHT + (tile - 0.5) * TILE_HEIGHT);
+}
+
+void System::render_bullets() {
+    for (Bullet* bullet: bullets) {
+        bullet->render(&window);
+    }
+}
+
+void System::update_bullets() {
+    for (int i = 0; i < bullets.size(); i++) {
+        bullets[i]->update();
+        if(bullets[i]->is_out(screen_size.x)) {
+            bullets.erase(bullets.begin() + i);
+            i--;
+        }
+    }
 }

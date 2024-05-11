@@ -5,6 +5,8 @@
 #include <SFML/Audio.hpp>
 #include <chrono>
 #include <random>
+#include <fstream>
+
 
 
 using namespace std;
@@ -38,5 +40,7 @@ const int PLANTS_NUMBER = 4;
 const Vector2i FIRST_CARD_POSITION = {75,250};
 const int SUNSHINE_TIMER = 4;
 const int ZOMBIE_TIMER = 4;
+
+const string INPUT_FILE_ADDRESS = "input.csv";
 
 

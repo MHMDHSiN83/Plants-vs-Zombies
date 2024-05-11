@@ -1,39 +1,48 @@
+#include <SFML/Graphics.hpp>
 #include <iostream>
+using namespace std;
+int main()
+{
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Clock Example");
+    sf::Clock clock;
+    bool drawRectangle = false;
 
-const int ROWS = 3;
-const int COLS = 3;
-
-void modifyArray(int (&arr)[ROWS][COLS]);
-
-// Function to modify a 2D array using a reference
-void modifyArray(int (&arr)[ROWS][COLS]) {
-    // Modify the array
-    for(int i = 0; i < ROWS; ++i) {
-        for(int j = 0; j < COLS; ++j) {
-            arr[i][j] = i * COLS + j;
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
         }
-    }
-}
 
-// Function to display a 2D array
-void displayArray(const int (&arr)[ROWS][COLS]) {
-    // Display the array
-    for(int i = 0; i < ROWS; ++i) {
-        for(int j = 0; j < COLS; ++j) {
-            std::cout << arr[i][j] << " ";
+        // Get the elapsed time since the last frame
+        sf::Time elapsed = clock.getElapsedTime();
+        cout << elapsed.asSeconds() << endl;
+
+        // If 2 seconds have passed, set drawRectangle to true
+        if (elapsed.asSeconds() >= 2 && !drawRectangle)
+        {
+            drawRectangle = true;
+            std::cout << "2 seconds elapsed. Drawing rectangle." << std::endl;
+            clock.restart();
         }
-        std::cout << std::endl;
+
+        // Clear the window
+        window.clear();
+
+        // Draw objects, UI, etc.
+        if (drawRectangle)
+        {
+            sf::RectangleShape rectangle(sf::Vector2f(100, 100));
+            rectangle.setFillColor(sf::Color::Green);
+            rectangle.setPosition(100, 100);
+            window.draw(rectangle);
+        }
+
+        // Display the window
+        window.display();
     }
-}
-
-int main() {
-    int myArray[ROWS][COLS];
-
-    // Call the function to modify the array
-    modifyArray(myArray);
-
-    // Call the function to display the modified array
-    displayArray(myArray);
 
     return 0;
 }
