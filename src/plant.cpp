@@ -9,7 +9,7 @@ Plant::Plant(int _type) {
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
     Vector2f pos(FIRST_CARD_POSITION.x, FIRST_CARD_POSITION.y + _type * 140);
-    sprite.setScale(0.28,0.28);
+    set_size(type);
     sprite.setPosition(pos);
     is_planted = false;
 }
@@ -17,6 +17,27 @@ Plant::Plant(int _type) {
 Plant::~Plant() {
 
 }
+
+void Plant::set_size(int type){
+    switch (type)
+    {
+    case 0:
+        sprite.setScale(0.28,0.28);
+        break;
+    case 1:
+        sprite.setScale(0.25,0.25);
+        break;
+    case 2:
+        sprite.setScale(0.35,0.35);
+        break;
+    case 3:
+        sprite.setScale(0.38,0.38);
+        break;
+    default:
+        break;
+    }
+}
+
 void Plant::build_animation() {}
 
 void Plant::update(Vector2i position){

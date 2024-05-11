@@ -201,13 +201,6 @@ void System::update_cards() {
     }
 }
 
-void System::build_animation(){
-    for (Plant* plant : plants)
-    {
-        plant->build_animation();
-    }
-    
-}
 
 
 void System::render_sunshines() {
@@ -260,6 +253,11 @@ void System::create_zombie() {
     duration<double> distance = now - last_zombie_time;
     if(distance.count() > ZOMBIE_TIMER) {
         last_zombie_time = now;
+        // Vector2f zombie_position(1920, calculate_height_position(5));
+        // Vector2f zombie_position(1920, calculate_height_position(2));
+        // Vector2f zombie_position(1920, calculate_height_position(3));
+        // Vector2f zombie_position(1920, calculate_height_position(4));
+        // Vector2f zombie_position(1920, calculate_height_position(5));
         Vector2f zombie_position(1920, calculate_height_position(generate_random_number_between(1,5)));
         zombies.push_back(new Zombie(zombie_position));
     }
@@ -277,6 +275,25 @@ void System::update_zombies() {
         zombie->update();
     }
 }
+
+void System::build_animation(){
+    build_animation_of_plants();
+    build_animation_of_zombie();
+}
+void System::build_animation_of_plants(){
+    for (Plant* plant : plants)
+    {
+        plant->build_animation();
+    }
+}
+
+void System::build_animation_of_zombie(){
+    for (Zombie* zombie : zombies)
+    {
+        zombie->build_animation();
+    }
+}
+
 
 int System::calculate_height_position(int tile) {
     return (MIN_HEIGHT + (tile - 0.5) * TILE_HEIGHT);

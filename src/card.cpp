@@ -5,14 +5,14 @@ Card::Card(Vector2i first_card_position, int _type) {
     set_texture();
     rect.top = 0;
     rect.left = 0;
-    rect.width = 280;
-    rect.height = 174;
+    rect.width = 188;//280
+    rect.height = 112;//174
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
     first_card_position.y += _type * 140;
     Vector2f pos(first_card_position.x, first_card_position.y);
     sprite.setPosition(pos);
-    sprite.setScale(0.6,0.6);
+    sprite.setScale(1,1);// 0.6 0.6
     is_clicked = false;
     timer = 0;
 }
@@ -21,27 +21,27 @@ void Card::set_texture() {
     switch (type)
     {
     case 0:
-        if(!texture.loadFromFile("assets/some picture/peashooter_card.png"))
+        if(!texture.loadFromFile("assets/cards/on_peashooter.png"))
             exit(0);
-        if(!pressed_texture.loadFromFile("assets/some picture/peashooter_pressed.png"))
+        if(!pressed_texture.loadFromFile("assets/cards/off_peashooter.png"))
             exit(0);
         break;
     case 1:
-        if(!texture.loadFromFile("assets/some picture/sunflower_card.png"))
+        if(!texture.loadFromFile("assets/cards/on_sunflower.png"))
             exit(0);
-        if(!pressed_texture.loadFromFile("assets/some picture/sunflower_pressed.png"))
+        if(!pressed_texture.loadFromFile("assets/cards/off_sunflower.png"))
             exit(0);
         break;
     case 2:
-        if(!texture.loadFromFile("assets/some picture/walnut_card.png"))
+        if(!texture.loadFromFile("assets/cards/on_wallnut.png"))
             exit(0);
-        if(!pressed_texture.loadFromFile("assets/some picture/walnut_pressed.png"))
+        if(!pressed_texture.loadFromFile("assets/cards/off_wallnut.png"))
             exit(0);
         break;
     case 3:
-        if(!texture.loadFromFile("assets/some picture/peashooter_card.png"))
+        if(!texture.loadFromFile("assets/cards/on_snow_peashooter.png"))
             exit(0);
-        if(!pressed_texture.loadFromFile("assets/some picture/peashooter_pressed.png"))
+        if(!pressed_texture.loadFromFile("assets/cards/off_snow_peashooter.png"))
             exit(0);
         break;
     }

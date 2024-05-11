@@ -21,4 +21,5 @@ protected:
     bool is_mouse_on_playground(int width_index, int height_index);
     pair<float, float> get_center_of_current_tile(int height_index, int width_index, float tile_width, float tile_height);
     int timer = 0;
+    void set_size(int type);
 };

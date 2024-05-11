@@ -28,7 +28,6 @@ public:
 private:
     RenderWindow window;
     Status status;
-    Plant* plant;
     vector<Plant*> plants;
     vector<Sunshine*> sunshines;
     vector<Zombie*> zombies;
@@ -63,6 +62,8 @@ private:
     void create_zombie();
     void update_zombies();
     void render_zombies();
+    void build_animation_of_plants();
+    void build_animation_of_zombie();
     system_clock::time_point last_zombie_time = system_clock::now();
     Vector2u screen_size;
     int calculate_height_position(int tile);

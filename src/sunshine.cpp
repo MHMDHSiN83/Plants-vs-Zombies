@@ -12,6 +12,7 @@ Sunshine::Sunshine(Vector2f position) {
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
     sprite.setPosition(position);
+    sprite.setScale(1.2, 1.2);
 }
 
 
