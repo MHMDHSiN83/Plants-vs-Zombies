@@ -68,8 +68,15 @@ private:
     void build_animation_of_plants();
     void build_animation_of_zombie();
     Clock zombie_clock;
+    Clock zombie_hit_clock;
     Vector2u screen_size;
     int calculate_height_position(int tile);
     void update_bullets();
     void render_bullets();
+    void handle_collision();
+    void handle_zombie_bullet_collision();
+    void handle_zombie_plant_collision();
+    bool is_on_same_height(Bullet* bullet, Zombie* zombie);
+    bool is_on_same_height(Plant* plant, Zombie* zombie);
+    bool is_there_zombie_in_front(Plant* plant);
 };

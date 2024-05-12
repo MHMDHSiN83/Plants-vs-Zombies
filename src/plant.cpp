@@ -12,6 +12,7 @@ Plant::Plant(int _type) {
     set_size(type);
     sprite.setPosition(pos);
     is_planted = false;
+    health = 5;
 }
 
 Plant::~Plant() {
@@ -96,6 +97,8 @@ int Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE
     
     if(!tiles_status[height_index - 1][width_index - 1]) {
         tiles_status[height_index - 1][width_index - 1] = 1;
+        width = width_index;
+        height = height_index;
         pair<float, float> center_of_tile = get_center_of_current_tile(height_index, width_index, TILE_WIDTH, TILE_HEIGHT); 
         sprite.setPosition(MIN_WIDTH + center_of_tile.first - sprite.getGlobalBounds().width/2, MIN_HEIGHT + center_of_tile.second - sprite.getGlobalBounds().height/2);
         return 1;
@@ -108,3 +111,16 @@ int Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE
 int Plant::get_card_index() { return type; }
 
 Bullet* Plant::shoot() { return NULL; }
+
+int Plant::get_height() { return height; }
+
+FloatRect Plant::get_rect() { return sprite.getGlobalBounds(); }
+
+
+void Plant::decrease_health(int zombie_damage) { health -= zombie_damage; }
+
+bool Plant::is_dead() {
+    if(health <= 0)
+        return true;
+    return false;
+}

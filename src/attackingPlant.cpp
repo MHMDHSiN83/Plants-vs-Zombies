@@ -54,9 +54,9 @@ Bullet* AttackingPlant::shoot() {
     if(!is_planted)
         return NULL;
     Time elapsed = action_clock.getElapsedTime();
-    if(elapsed.asSeconds() > 3) {
+    if(elapsed.asSeconds() > 1) {
         action_clock.restart();
-        return (new Bullet({sprite.getPosition().x + 2 * sprite.getGlobalBounds().width/3, sprite.getPosition().y + 30}, type));
+        return (new Bullet({sprite.getPosition().x + 2 * sprite.getGlobalBounds().width/3, sprite.getPosition().y + 30}, type, width, height));
     }
     return NULL;
 }

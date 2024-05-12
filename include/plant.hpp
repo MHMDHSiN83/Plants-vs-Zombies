@@ -12,10 +12,17 @@ public:
     int handle_mouse_pressed(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]);
     int get_card_index();
     virtual Bullet* shoot();
+    int get_height();
+    FloatRect get_rect();
+    void decrease_health(int zombie_damage);
+    bool is_dead();
+    int health;
 protected:
     Texture texture;
     Sprite sprite;
     IntRect rect;
+    int width = 0;
+    int height = 0;
     int type;
     bool is_planted;
     int planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH]);

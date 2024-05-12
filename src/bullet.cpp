@@ -1,6 +1,6 @@
 #include "../include/bullet.hpp"
 
-Bullet::Bullet(Vector2f position, int type) {
+Bullet::Bullet(Vector2f position, int type, int _width, int _height) {
     set_texture(type);
     rect.top = 0;
     rect.left = 0;
@@ -10,6 +10,9 @@ Bullet::Bullet(Vector2f position, int type) {
     sprite.setTextureRect(rect);
     sprite.setPosition(position);
     sprite.setScale(0.2, 0.2);
+    width = _width;
+    height = _height;
+    damage = 1;
 }
 
 
@@ -52,4 +55,10 @@ void Bullet::set_texture(int type) {
         break;
     }
 }
+
+FloatRect Bullet::get_rect() { return sprite.getGlobalBounds(); }
+
+int Bullet::get_height() { return height; }
+
+int Bullet::get_damage() { return damage; }
 

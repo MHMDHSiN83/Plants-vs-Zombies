@@ -47,6 +47,7 @@ void System::update() {
         update_zombies();
         create_zombie();
         update_bullets();
+        handle_collision();
         break;
     case (PAUSE_MENU):
         break;
@@ -156,6 +157,9 @@ void System::update_plants(Vector2i position) {
     for (Plant* plant : plants)
     {
         plant->update(position);
+        if(!is_there_zombie_in_front(plant))  {
+            continue;
+        }
         Bullet* bullet = plant->shoot();
         if(bullet != NULL)
             bullets.push_back(bullet);
@@ -207,7 +211,6 @@ void System::update_cards() {
 }
 
 
-
 void System::render_sunshines() {
     for (Sunshine* sunshine: sunshines) {
         sunshine->render(&window);
@@ -255,8 +258,9 @@ int System::generate_random_number_between(int start, int end) {
 void System::create_zombie() {
     Time elapsed = zombie_clock.getElapsedTime();
     if(elapsed.asSeconds() > ZOMBIE_TIMER) {
-        Vector2f zombie_position(1920, calculate_height_position(generate_random_number_between(1,5)));
-        zombies.push_back(new Zombie(zombie_position));
+        int rand = generate_random_number_between(1,5);
+        Vector2f zombie_position(MAX_WIDTH, calculate_height_position(rand));
+        zombies.push_back(new Zombie(zombie_position, rand));
         zombie_clock.restart();
     }
 }
@@ -311,4 +315,87 @@ void System::update_bullets() {
             i--;
         }
     }
+}
+
+void System::handle_collision() {
+    handle_zombie_plant_collision();
+    handle_zombie_bullet_collision();
+}
+
+void System::handle_zombie_bullet_collision() {
+    for (int i = 0; i < bullets.size(); i++)
+    {
+        FloatRect bullet_rect = bullets[i]->get_rect();
+        for (int j = 0; j < zombies.size(); j++)
+        {
+            FloatRect zombie_rect = zombies[j]->get_rect();
+            if(zombie_rect.intersects(bullet_rect) and is_on_same_height(bullets[i], zombies[j])) {
+                zombies[j]->decrease_health(bullets[i]->get_damage());
+                if(zombies[j]->is_dead()) {
+                    zombies.erase(zombies.begin() + j);
+                    j--;
+                }
+                bullets.erase(bullets.begin() + i);
+                i--;
+                break;
+            }
+        }
+    }
+}
+
+void System::handle_zombie_plant_collision() {
+    for (int i = 0; i < plants.size(); i++)
+    {
+        FloatRect plant_rect = plants[i]->get_rect();
+        for (int j = 0; j < zombies.size(); j++)
+        {
+            FloatRect zombie_rect = zombies[j]->get_rect();
+            if(zombie_rect.intersects(plant_rect) and is_on_same_height(plants[i], zombies[j])) {
+                if(zombies[j]->is_eating()) {
+                    Time elapsed = zombies[j]->get_elapsed();
+                    if(elapsed.asSeconds() > zombies[j]->get_hit_rate()) {
+                        plants[i]->decrease_health(zombies[j]->get_damage());
+                        zombies[j]->restart_clock();
+                    }
+                } else {
+                    zombies[j]->change_eating_situation();
+                    zombies[j]->restart_clock();
+                }
+            }
+        }
+        if(plants[i]->is_dead()) {
+            for (Zombie* zombie : zombies)
+            {
+                FloatRect zombie_rect = zombie->get_rect();
+                if(zombie_rect.intersects(plant_rect) and is_on_same_height(plants[i], zombie)) {
+                        zombie->change_eating_situation();
+                }
+            }
+            plants.erase(plants.begin() + i);
+            i--;
+        }
+    }
+}
+
+
+bool System::is_on_same_height(Bullet* bullet, Zombie* zombie) {
+    if(bullet->get_height() == zombie->get_height())
+        return true;
+    return false;
+}
+
+bool System::is_on_same_height(Plant* plant, Zombie* zombie) {
+    if(plant->get_height() == zombie->get_height())
+        return true;
+    return false;
+}
+
+bool System::is_there_zombie_in_front(Plant* plant) {
+    for (Zombie* zombie : zombies) {
+        if(zombie->get_height() == plant->get_height())
+            if(zombie->get_rect().left > plant->get_rect().left )
+                return true;
+    }
+    return false;
+    
 }
