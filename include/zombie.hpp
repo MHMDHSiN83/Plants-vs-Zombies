@@ -16,9 +16,9 @@ public:
     void decrease_health(int bullet_damage);
     bool is_dead();
     void change_eating_situation();
-    int get_damage();
+    double get_damage();
     bool is_eating();
-    int get_hit_rate();
+    double get_hit_rate();
     Time get_elapsed();
     void restart_clock();
 private:
@@ -39,9 +39,6 @@ private:
     double number_of_add_zombie;
     void store_textures();
     int height;
-    int health;
     bool eating = false;
-    int damage;
-    int hit_rate;
     Clock hit_clock;
 };

@@ -73,9 +73,9 @@ bool Zombie::is_dead() {
 
 void Zombie::change_eating_situation() { eating = !eating; }
 
-int Zombie::get_damage() { return damage; }
+double Zombie::get_damage() { return damage; }
 bool Zombie::is_eating() { return eating; }
 
-int Zombie::get_hit_rate() { return hit_rate; }
+double Zombie::get_hit_rate() { return hit_rate; }
 Time Zombie::get_elapsed() { return hit_clock.getElapsedTime(); }
 void Zombie::restart_clock() {  hit_clock.restart(); }

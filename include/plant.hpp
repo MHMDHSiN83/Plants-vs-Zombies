@@ -14,10 +14,10 @@ public:
     virtual Bullet* shoot();
     int get_height();
     FloatRect get_rect();
-    void decrease_health(int zombie_damage);
-    bool is_dead();
-    int health;
+    virtual void decrease_health(double zombie_damage);
+    virtual bool is_dead();
 protected:
+    // double health;
     Texture texture;
     Sprite sprite;
     IntRect rect;
@@ -31,4 +31,10 @@ protected:
     int timer = 0;
     Clock action_clock;
     void set_size(int type);
+    double damage;
+    double health;
+    double cooldown;
+    double hit_rate;
+    double speed;
+    double price;
 };

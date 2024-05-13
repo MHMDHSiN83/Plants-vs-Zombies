@@ -29,13 +29,13 @@ void System::set_information(vector<double> zombies_data, vector<double> plant_d
         regular_zombie.push_back(zombies_data[i]);
     for(int i = 0; i < 6; i++)
         peashooter_data.push_back(plant_data[i]);
-    for(int i = 7; i < 13; i++)
+    for(int i = 6; i < 12; i++)
         icepeashooter_data.push_back(plant_data[i]);
-    for(int i = 14; i < 20; i++)
+    for(int i = 12; i < 18; i++)
         kernelPult_data.push_back(plant_data[i]);
-    for(int i = 21; i < 27; i++)
+    for(int i = 18; i < 24; i++)
         sun_flower_data.push_back(plant_data[i]);
-    for(int i = 28; i < 34; i++)
+    for(int i = 24; i < 30; i++)
         walnut_data.push_back(plant_data[i]);
     zombies_attacking_data = attack_data;
     sunshine_data = sun_data;
@@ -415,5 +415,4 @@ bool System::is_there_zombie_in_front(Plant* plant) {
                 return true;
     }
     return false;
-    
 }

@@ -34,3 +34,11 @@ void Sunflower::store_textures() {
         textures.push_back(new_texture);
     }
 }
+
+void Sunflower::decrease_health(double zombie_damage) { health -= zombie_damage; }
+
+bool Sunflower::is_dead() {
+    if(health <= 0)
+        return true;
+    return false;
+}

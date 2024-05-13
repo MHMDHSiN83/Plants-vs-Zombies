@@ -12,7 +12,6 @@ Plant::Plant(int _type){
     set_size(type);
     sprite.setPosition(pos);
     is_planted = false;
-    health = 5;
 }
 
 Plant::~Plant() {
@@ -117,10 +116,8 @@ int Plant::get_height() { return height; }
 FloatRect Plant::get_rect() { return sprite.getGlobalBounds(); }
 
 
-void Plant::decrease_health(int zombie_damage) { health -= zombie_damage; }
+void Plant::decrease_health(double zombie_damage) {  }
 
 bool Plant::is_dead() {
-    if(health <= 0)
-        return true;
     return false;
 }

@@ -34,3 +34,11 @@ void Walnut::store_textures() {
         textures.push_back(new_texture);
     }
 }
+
+void Walnut::decrease_health(double zombie_damage) { health -= zombie_damage; }
+
+bool Walnut::is_dead() {
+    if(health <= 0)
+        return true;
+    return false;
+}

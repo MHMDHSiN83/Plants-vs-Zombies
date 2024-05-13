@@ -24,3 +24,4 @@ void IcePeashooter::store_textures() {
         textures.push_back(new_texture);
     }
 }
+
