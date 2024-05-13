@@ -1,6 +1,6 @@
 #include "../include/card.hpp"
 // #include "../include/plant.hpp"
-Card::Card(Vector2i first_card_position, int _type) {
+Card::Card(Vector2i first_card_position, int _type, double _cooldown, double _price) {
     type = _type;
     set_texture();
     rect.top = 0;
@@ -12,9 +12,11 @@ Card::Card(Vector2i first_card_position, int _type) {
     first_card_position.y += _type * 140;
     Vector2f pos(first_card_position.x, first_card_position.y);
     sprite.setPosition(pos);
-    sprite.setScale(1,1);// 0.6 0.6
+    sprite.setScale(1,1);
     is_clicked = false;
     timer = 0;
+    cooldown = _cooldown;
+    price = _price;
 }
 
 void Card::set_texture() {
@@ -52,17 +54,20 @@ Card::~Card() {
 }
 
 
-void Card::update(){
-    if(is_clicked) {
+void Card::update(int sun){
+    if(price > sun) {
+        sprite.setTexture(pressed_texture);
+        is_clicked = true;
+    }
+    else if (is_clicked) {
         Time elapsed = clock.getElapsedTime();
-        if(elapsed.asSeconds() > 2) {
+        if(elapsed.asSeconds() > cooldown) {
             sprite.setTexture(texture);
             is_clicked = false;
             clock.restart();
         }
     }
 }
-
 
 void Card::render(RenderWindow* window) {
     window->draw(sprite);
@@ -88,5 +93,13 @@ void Card::reset_card() {
 
 void Card::start_timer() { 
     clock.restart();
+    is_clicked = true;
+}
+
+double Card::get_price() {
+    return price;
+}
+
+void Card::disable() {
     is_clicked = true;
 }

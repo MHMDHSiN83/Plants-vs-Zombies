@@ -18,7 +18,6 @@ public:
     virtual void decrease_health(double zombie_damage);
     virtual bool is_dead();
 protected:
-    // double health;
     Texture texture;
     Sprite sprite;
     IntRect rect;

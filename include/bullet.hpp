@@ -5,7 +5,7 @@
 
 class Bullet {
 public:
-    Bullet(Vector2f position, int type, int _width, int _height);
+    Bullet(Vector2f position, int type, int _width, int _height, double _speed, double _damage);
     ~Bullet();
     void update();
     void render(RenderWindow* Window);
@@ -20,7 +20,7 @@ private:
     Texture texture;
     Sprite sprite;
     IntRect rect;
-    int speed = 5;
+    int speed;
     int width;
     int height;
     int damage;

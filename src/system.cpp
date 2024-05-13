@@ -12,14 +12,36 @@ System::System(vector<double> zombies_data, vector<double> plant_data, vector<do
 
     score_box = new ScoreBox;
 
-    play_music();
+    // play_music();
     
-    for(int i = 0; i < PLANTS_NUMBER; i++)
-        cards[i] = new Card(FIRST_CARD_POSITION, i);
+    set_information(zombies_data, plant_data, attack_data, sun_data);
+    for(int i = 0; i < PLANTS_NUMBER; i++) {
+        double cooldown;
+        double price;
+        switch (i)
+        {
+        case 0:
+            cooldown = peashooter_data[2];
+            price = peashooter_data[5];
+            break;
+        case 1:
+            cooldown = sun_flower_data[2];
+            price = sun_flower_data[5];
+            break;
+        case 2:
+            cooldown = walnut_data[2];
+            price = walnut_data[5];
+            break;
+        case 3:
+            cooldown = icepeashooter_data[2];
+            price = icepeashooter_data[5];
+            break;
+        }
+        cards[i] = new Card(FIRST_CARD_POSITION, i, cooldown, price);
+    }
     for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
         for (int j = 0; j < NUMBER_OF_TILE_WIDTH; j++)
             tiles_status[i][j] = 0;
-    set_information(zombies_data, plant_data, attack_data, sun_data);
 }
 
 void System::set_information(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data){
@@ -168,6 +190,7 @@ void System::handle_mouse_pressed_plants(Vector2i mouse_position) {
             plants.pop_back();
         } else if(result == 1) {
             cards[plants[i]->get_card_index()]->start_timer();
+            sun -= cards[plants[i]->get_card_index()]->get_price();
         }
     }
 }
@@ -184,7 +207,6 @@ void System::update_plants(Vector2i position) {
             bullets.push_back(bullet);
     }
 }
-
 
 void System::render_cards() {
     for (int i = 0; i < PLANTS_NUMBER; i++)
@@ -219,13 +241,12 @@ void System::handle_mouse_pressed_cards(Vector2i mouse_position) {
             create_plant(i);
         }
     }
-    
 }
 
 void System::update_cards() {
     for (int i = 0; i < PLANTS_NUMBER; i++)
     {
-        cards[i]->update();
+        cards[i]->update(sun);
     }
 }
 
@@ -259,7 +280,7 @@ void System::handle_mouse_pressed_sunshines(Vector2i mouse_position) {
 
 void System::create_sunshine() {
     Time elapsed = sunshine_clock.getElapsedTime();
-    if(elapsed.asSeconds() > SUNSHINE_TIMER) {
+    if(elapsed.asSeconds() > sunshine_data[1]) {
         Vector2f sunshine_position(generate_random_number_between(MIN_WIDTH, MAX_WIDTH), 0);
         sunshines.push_back(new Sunshine(sunshine_position, sunshine_data));
         sunshine_clock.restart();

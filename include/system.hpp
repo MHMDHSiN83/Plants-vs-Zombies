@@ -76,15 +76,13 @@ private:
     /////////////////
     void set_information(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data);
     vector<double> regular_zombie;
-    // hairMetalGargantuar zombie
+    vector<double> hair_metal_gargantuar_zombie;
     vector<double> peashooter_data;
     vector<double> icepeashooter_data;
     vector<double> kernelPult_data;
     vector<double> sun_flower_data;
     vector<double> walnut_data;
-    /////////////////////
     vector<double> zombies_attacking_data;
-    /////////////////////
     vector<double> sunshine_data;
     void handle_collision();
     void handle_zombie_bullet_collision();

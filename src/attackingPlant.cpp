@@ -8,7 +8,6 @@ AttackingPlant::AttackingPlant(int _type, vector<double> peashooter_data, vector
         set_data_of_icepeashooter(icepeashooter_data);
     }
     store_textures();
-    cout << health << endl;
 }
 
 void AttackingPlant::set_data_of_peashooter(vector<double> peashooter_data){
@@ -65,7 +64,7 @@ Bullet* AttackingPlant::shoot() {
     Time elapsed = action_clock.getElapsedTime();
     if(elapsed.asSeconds() > hit_rate) {
         action_clock.restart();
-        return (new Bullet({sprite.getPosition().x + 2 * sprite.getGlobalBounds().width/3, sprite.getPosition().y + 30}, type, width, height));
+        return (new Bullet({sprite.getPosition().x + 2 * sprite.getGlobalBounds().width/3, sprite.getPosition().y + 30}, type, width, height, speed, damage));
     }
     return NULL;
 }
