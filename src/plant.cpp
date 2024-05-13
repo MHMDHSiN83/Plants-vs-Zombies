@@ -106,12 +106,12 @@ int Plant::planting(Vector2i mouse_position, bool (&tiles_status)[NUMBER_OF_TILE
     return 2;
 }
 
-
 int Plant::get_card_index() { return type; }
 
 Bullet* Plant::shoot() { return NULL; }
 
 int Plant::get_height() { return height; }
+int Plant::get_width() { return width; }
 
 FloatRect Plant::get_rect() { return sprite.getGlobalBounds(); }
 

@@ -5,13 +5,11 @@
 System::System(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data) {
     window.create(VideoMode::getDesktopMode(), "PVZ", Style::Default);
     window.setFramerateLimit(120);
-    status = PLAYING;
-    if(!background_texture.loadFromFile("assets/background1.png")) {
-        exit(0);
-    }
-    screen_size = window.getSize();
-    background_sprite.setScale(screen_size.x / (float)background_texture.getSize().x, screen_size.y / (float)background_texture.getSize().y);
-    background_sprite.setTexture(background_texture);
+
+    status = MAIN_MENU;
+    
+    set_background("assets/main_menu.png");
+
     score_box = new ScoreBox;
 
     play_music();
@@ -82,12 +80,12 @@ void System::update() {
 
 void System::render() {
     window.clear();
+    window.draw(background_sprite);
     switch (status) {
     case (PLAYING):
-        window.draw(background_sprite);
         render_plants();
-        render_cards();
         render_zombies();
+        render_cards();
         score_box->render(&window, sun);
         render_bullets();
         render_sunshines();
@@ -95,10 +93,12 @@ void System::render() {
     case (PAUSE_MENU):
         break;
     case (MAIN_MENU):
+        render_main_menu();
         break;
     case (VICTORY_SCREEN):
         break;
     case (GAMEOVER_SCREEN):
+        // render_game_over();
         break;
     case (EXIT):
         break;
@@ -143,6 +143,7 @@ void System::mouse_pressed(Event event) {
         case (PAUSE_MENU):
             break;
         case (MAIN_MENU):
+            handle_mouse_pressed_main_menu(mouse_position);
             break;
         case (VICTORY_SCREEN):
             break;
@@ -293,6 +294,10 @@ void System::render_zombies() {
 void System::update_zombies() {
     for (Zombie* zombie: zombies) {
         zombie->update();
+        if(zombie->is_out()) {
+            status = GAMEOVER_SCREEN;
+            set_background("assets/game_over.png");
+        }
     }
 }
 
@@ -389,6 +394,7 @@ void System::handle_zombie_plant_collision() {
                         zombie->change_eating_situation();
                 }
             }
+            tiles_status[plants[i]->get_height() - 1][plants[i]->get_width() - 1] = false;
             plants.erase(plants.begin() + i);
             i--;
         }
@@ -415,4 +421,25 @@ bool System::is_there_zombie_in_front(Plant* plant) {
                 return true;
     }
     return false;
+}
+
+
+void System::render_main_menu() {
+
+}
+
+void System::handle_mouse_pressed_main_menu(Vector2i mouse_position) {
+    if(mouse_position.x > screen_size.x/4 && mouse_position.x < 3 * screen_size.x/4 && mouse_position.y > 6 * screen_size.y/7) {
+        status = PLAYING;
+        set_background("assets/background.png");
+    }
+}
+
+void System::set_background(string path) {
+    if(!background_texture.loadFromFile(path)) {
+        exit(0);
+    }
+    screen_size = window.getSize();
+    background_sprite.setScale(screen_size.x / (float)background_texture.getSize().x, screen_size.y / (float)background_texture.getSize().y);
+    background_sprite.setTexture(background_texture);
 }

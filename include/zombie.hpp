@@ -21,6 +21,7 @@ public:
     double get_hit_rate();
     Time get_elapsed();
     void restart_clock();
+    bool is_out();
 private:
     double damage;
     double health;
@@ -29,10 +30,13 @@ private:
     void set_data(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
     Texture texture;
     vector<Texture> textures;
+    vector<Texture> textures2;
     Sprite sprite;
     IntRect rect;
     int number_of_idle_frames = 31;
+    int number_of_idle_frames2 = 12;
     int timer = 1;
+    int timer2 = 1;
     double time_to_finish;
     double new_mode;
     double number_of_zombie;

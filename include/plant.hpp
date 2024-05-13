@@ -13,6 +13,7 @@ public:
     int get_card_index();
     virtual Bullet* shoot();
     int get_height();
+    int get_width();
     FloatRect get_rect();
     virtual void decrease_health(double zombie_damage);
     virtual bool is_dead();

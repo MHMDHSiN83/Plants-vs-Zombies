@@ -92,4 +92,7 @@ private:
     bool is_on_same_height(Bullet* bullet, Zombie* zombie);
     bool is_on_same_height(Plant* plant, Zombie* zombie);
     bool is_there_zombie_in_front(Plant* plant);
+    void render_main_menu();
+    void handle_mouse_pressed_main_menu(Vector2i mouse_position);
+    void set_background(string path);
 };

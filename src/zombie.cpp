@@ -39,10 +39,18 @@ void Zombie::render(RenderWindow* window) {
 }
 
 void Zombie::build_animation() {
-    timer++;
-    int counter = ((timer/5 + 1) % number_of_idle_frames )+ 1;
-    sprite.setTexture(textures[counter - 1]);
-    if(timer == 156) timer = 0;
+    if(!eating){
+        timer++;
+        int counter = ((timer/5 + 1) % number_of_idle_frames )+ 1;
+        sprite.setTexture(textures[counter - 1]);
+        if(timer == 156) timer = 0;
+    }
+    else {
+        timer2++;
+        int counter = ((timer2/5 + 1) % number_of_idle_frames2 )+ 1;
+        sprite.setTexture(textures2[counter - 1]);
+        if(timer2 == 61) timer2 = 0;
+    }
 }
 
 void Zombie::store_textures() {
@@ -51,6 +59,12 @@ void Zombie::store_textures() {
         Texture new_texture;
         new_texture.loadFromFile("assets/zom/" + to_string(i) + ".png");
         textures.push_back(new_texture);
+    }
+    for (int i = 1; i <= number_of_idle_frames2; i++)
+    {
+        Texture new_texture;
+        new_texture.loadFromFile("assets/zom/eating/" + to_string(i) + ".png");
+        textures2.push_back(new_texture);
     }
 }
 
@@ -79,3 +93,9 @@ bool Zombie::is_eating() { return eating; }
 double Zombie::get_hit_rate() { return hit_rate; }
 Time Zombie::get_elapsed() { return hit_clock.getElapsedTime(); }
 void Zombie::restart_clock() {  hit_clock.restart(); }
+
+bool Zombie::is_out() {
+    if(sprite.getPosition().x < 0)
+        return true;
+    return false;
+}
