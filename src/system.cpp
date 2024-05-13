@@ -23,7 +23,7 @@ System::System(vector<double> zombies_data, vector<double> plant_data, vector<do
 }
 
 void System::set_information(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data){
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 8; i++)
         regular_zombie.push_back(zombies_data[i]);
     for(int i = 0; i < 6; i++)
         peashooter_data.push_back(plant_data[i]);
@@ -278,8 +278,9 @@ void System::create_zombie() {
     Time elapsed = zombie_clock.getElapsedTime();
     if(elapsed.asSeconds() > ZOMBIE_TIMER) {
         int rand = generate_random_number_between(1,5);
-        Vector2f zombie_position(MAX_WIDTH, calculate_height_position(rand));
-        zombies.push_back(new Zombie(zombie_position, regular_zombie, zombies_attacking_data, rand));
+        int type = generate_random_number_between(0,1);
+        Vector2f zombie_position(MAX_WIDTH, calculate_height_position(1));
+        zombies.push_back(new Zombie(0, zombie_position, regular_zombie, zombies_attacking_data, 1));
         zombie_clock.restart();
     }
 }

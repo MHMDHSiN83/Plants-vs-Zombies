@@ -5,11 +5,13 @@
 
 class Zombie {
 public:
-    Zombie(Vector2f position, vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
+    Zombie(int _type, Vector2f position, vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
     ~Zombie();
     void update();
     void render(RenderWindow* Window);
     bool handle_mouse_pressed(Vector2i mouse_position);
+    void build_animation_of_normal_zombie();
+    void build_animation_of_giant_zombie();
     void build_animation();
     FloatRect get_rect();
     int get_height();
@@ -27,22 +29,28 @@ private:
     double health;
     double hit_rate;
     double speed;
-    void set_data(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
+    void set_data_of_normal_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
+    void set_data_of_giant_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
     Texture texture;
     vector<Texture> textures;
     vector<Texture> textures2;
     Sprite sprite;
     IntRect rect;
-    int number_of_idle_frames = 31;
-    int number_of_idle_frames2 = 12;
-    int timer = 1;
-    int timer2 = 1;
+    int timer_normal_zombie = 1;
+    int timer_eating_normal_zombie = 1;
+    int timer_giant_zombie = 1;
+    int timer_eating_giant_zombie = 1;
     double time_to_finish;
     double new_mode;
     double number_of_zombie;
     double number_of_add_zombie;
-    void store_textures();
+    void store_textures_of_normal_zombie();
+    void store_textures_of_giant_zombie();
     int height;
     bool eating = false;
     Clock hit_clock;
+    int type;
+    //////////////////////
+    vector<Texture> textures_of_giant;
+    vector<Texture> textures_of_eating_giant;
 };

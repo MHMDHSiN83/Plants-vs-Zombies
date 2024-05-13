@@ -10,8 +10,6 @@ public:
     Bullet* shoot();
     void decrease_health(double zombie_damage);
     bool is_dead();
-
-
 private:
     void store_textures();
     vector<Texture> textures;
