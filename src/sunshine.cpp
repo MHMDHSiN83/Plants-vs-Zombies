@@ -1,10 +1,7 @@
 
 #include "../include/sunshine.hpp"
 
-Sunshine::Sunshine(Vector2f position) {
-    if(!texture.loadFromFile("assets/some picture/sun.png")) {
-        exit(0);
-    }
+Sunshine::Sunshine(Vector2f position, vector<double> sunshine_data) {
     rect.top = 0;
     rect.left = 0;
     rect.width = 117;
@@ -12,9 +9,17 @@ Sunshine::Sunshine(Vector2f position) {
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
     sprite.setPosition(position);
-    sprite.setScale(1.2, 1.2);
+    set_data(sunshine_data);
 }
 
+void Sunshine::set_data(vector<double> sunshine_data){
+    if(!texture.loadFromFile("assets/some picture/sun.png")) {
+        exit(0);
+    }
+    sprite.setScale(1.2, 1.2);
+    speed = sunshine_data[0];
+    interval = sunshine_data[1];
+}
 
 void Sunshine::update() {
     sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + speed);

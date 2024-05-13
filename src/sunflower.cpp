@@ -1,11 +1,21 @@
 #include "../include/sunflower.hpp"
 
 
-Sunflower::Sunflower(int _type) : Plant(_type) {
+Sunflower::Sunflower(int _type, vector<double> sunflower_data) : Plant(_type) {
+    store_textures();
+    set_data_of_sunflower(sunflower_data);
+}
+
+void Sunflower::set_data_of_sunflower(vector<double> sunflower_data){
     if(!texture.loadFromFile("assets/sunflower/1.png")) {
         exit(0);
     }
-    store_textures();
+    damage = sunflower_data[0];
+    health = sunflower_data[1];
+    cooldown = sunflower_data[2];
+    hit_rate = sunflower_data[3];
+    speed = sunflower_data[4];
+    price = sunflower_data[5];
 }
 
 void Sunflower::build_animation() {

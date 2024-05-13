@@ -1,11 +1,21 @@
 #include "../include/walnut.hpp"
 
 
-Walnut::Walnut(int _type) : Plant(_type) {
+Walnut::Walnut(int _type, vector<double> walnut_data) : Plant(_type) {
+    store_textures();
+    set_data_of_walnut(walnut_data);
+}
+
+void Walnut::set_data_of_walnut(vector<double> walnut_data){
     if(!texture.loadFromFile("assets/walnut/1.png")) {
         exit(0);
     }
-    store_textures();
+    damage = walnut_data[0];
+    health = walnut_data[1];
+    cooldown = walnut_data[2];
+    hit_rate = walnut_data[3];
+    speed = walnut_data[4];
+    price = walnut_data[5];
 }
 
 void Walnut::build_animation() {

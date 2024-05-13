@@ -1,13 +1,7 @@
 
 #include "../include/zombie.hpp"
 
-Zombie::Zombie(Vector2f position, int _height) {
-    // if(!texture.loadFromFile("assets/some picture/Zombie_healthy.png")) {
-    //     exit(0);
-    // }
-        if(!texture.loadFromFile("assets/pea.png")) {
-        exit(0);
-    }
+Zombie::Zombie(Vector2f position, vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height) {
     rect.top = 0;
     rect.left = 0;
     rect.width = 335;
@@ -17,12 +11,23 @@ Zombie::Zombie(Vector2f position, int _height) {
     sprite.setScale(0.6, 0.6);
     sprite.setPosition(position.x, MIN_HEIGHT + position.y - sprite.getGlobalBounds().height + 80);
     store_textures();
-    health = 5;
-    damage = 1;
-    height = _height;
-    hit_rate = 1;
+    set_data(regular_zombie, zombies_attacking_data, _height);
 }
 
+void Zombie::set_data(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height){
+    if(!texture.loadFromFile("assets/some picture/Zombie_healthy.png")) {
+        exit(0);
+    }
+    damage = regular_zombie[0];
+    health = regular_zombie[1];
+    hit_rate = regular_zombie[2];
+    speed = regular_zombie[3];
+    time_to_finish = zombies_attacking_data[0];
+    new_mode = zombies_attacking_data[1];
+    number_of_zombie = zombies_attacking_data[2];
+    number_of_add_zombie = zombies_attacking_data[3];
+    height = _height;
+}
 
 void Zombie::update() {
     if(!eating)

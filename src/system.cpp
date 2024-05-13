@@ -2,7 +2,7 @@
 #include "../include/system.hpp"
 
 
-System::System() {
+System::System(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data) {
     window.create(VideoMode::getDesktopMode(), "PVZ", Style::Default);
     window.setFramerateLimit(120);
     status = PLAYING;
@@ -14,13 +14,31 @@ System::System() {
     background_sprite.setTexture(background_texture);
     score_box = new ScoreBox;
 
-    // play_music();
+    play_music();
     
     for(int i = 0; i < PLANTS_NUMBER; i++)
         cards[i] = new Card(FIRST_CARD_POSITION, i);
     for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
         for (int j = 0; j < NUMBER_OF_TILE_WIDTH; j++)
             tiles_status[i][j] = 0;
+    set_information(zombies_data, plant_data, attack_data, sun_data);
+}
+
+void System::set_information(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data){
+    for(int i = 0; i < 4; i++)
+        regular_zombie.push_back(zombies_data[i]);
+    for(int i = 0; i < 6; i++)
+        peashooter_data.push_back(plant_data[i]);
+    for(int i = 7; i < 13; i++)
+        icepeashooter_data.push_back(plant_data[i]);
+    for(int i = 14; i < 20; i++)
+        kernelPult_data.push_back(plant_data[i]);
+    for(int i = 21; i < 27; i++)
+        sun_flower_data.push_back(plant_data[i]);
+    for(int i = 28; i < 34; i++)
+        walnut_data.push_back(plant_data[i]);
+    zombies_attacking_data = attack_data;
+    sunshine_data = sun_data;
 }
 
 System:: ~System() {}
@@ -179,16 +197,16 @@ void System::create_plant(int i){
     switch (i)
     {
         case 0:
-            plants.push_back(new AttackingPlant(i));
+            plants.push_back(new AttackingPlant(i, peashooter_data, icepeashooter_data));
             break;
         case 1:
-            plants.push_back(new Sunflower(i));
+            plants.push_back(new Sunflower(i, sun_flower_data));
             break;
         case 2:
-            plants.push_back(new Walnut(i));
+            plants.push_back(new Walnut(i, walnut_data));
             break;
         case 3:
-            plants.push_back(new AttackingPlant(i));
+            plants.push_back(new AttackingPlant(i, peashooter_data, icepeashooter_data));
             break;
     }
 }
@@ -242,7 +260,7 @@ void System::create_sunshine() {
     Time elapsed = sunshine_clock.getElapsedTime();
     if(elapsed.asSeconds() > SUNSHINE_TIMER) {
         Vector2f sunshine_position(generate_random_number_between(MIN_WIDTH, MAX_WIDTH), 0);
-        sunshines.push_back(new Sunshine(sunshine_position));
+        sunshines.push_back(new Sunshine(sunshine_position, sunshine_data));
         sunshine_clock.restart();
     }
 }
@@ -260,7 +278,7 @@ void System::create_zombie() {
     if(elapsed.asSeconds() > ZOMBIE_TIMER) {
         int rand = generate_random_number_between(1,5);
         Vector2f zombie_position(MAX_WIDTH, calculate_height_position(rand));
-        zombies.push_back(new Zombie(zombie_position, rand));
+        zombies.push_back(new Zombie(zombie_position, regular_zombie, zombies_attacking_data, rand));
         zombie_clock.restart();
     }
 }

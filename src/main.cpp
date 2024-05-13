@@ -22,25 +22,46 @@ vector<string> split(string input, char spliter)
     return splited_string;
 }
 
-void getting_input() {
+vector<double> find_vector(string line){
+    string number = "";
+    vector <double> inf;
+    for(int i = 0; i < line.size(); i++){
+        if(line[i] >= 48 && line[i] <= 57){
+            number += line[i];
+        }
+        if((line[i] == '-' && number != "" ) || i == line.size() - 1){
+            inf.push_back(stod(number));
+            number = "";
+        }
+    }
+    return inf;
+}
+
+vector <string> getting_input() {
     ifstream file("input.csv");
     if (!file.is_open()) {
         cerr << "Error: Could not open the file." << endl;
         exit(0);
     }
     string line;
+    vector<string> lines;
     while (getline(file, line)) {
+        lines.push_back(line);
         
     }
     file.close();
+    return lines;
 }
 
-
+void set_vector(vector<string> &lines){
+    vector <double> zombies_inf = find_vector(lines[0]);
+}
 
 int main()
 {
     // getting_input();
     // return 0;
-    System system;
+    vector<string> lines = getting_input();
+    System system(find_vector(lines[0]), find_vector(lines[1]), find_vector(lines[2]), find_vector(lines[3]));
     system.run();
 }

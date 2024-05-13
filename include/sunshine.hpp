@@ -5,7 +5,7 @@
 
 class Sunshine {
 public:
-    Sunshine(Vector2f position);
+    Sunshine(Vector2f position, vector<double> sunshine_data);
     ~Sunshine();
     void update();
     void render(RenderWindow* Window);
@@ -15,5 +15,7 @@ private:
     Texture texture;
     Sprite sprite;
     IntRect rect;
-    int speed = 1;
+    double speed;
+    double interval;
+    void set_data(vector<double> sunshine_data);
 };

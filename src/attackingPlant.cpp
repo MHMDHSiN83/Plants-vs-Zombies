@@ -1,33 +1,41 @@
 #include "../include/attackingPlant.hpp"
 
 
-AttackingPlant::AttackingPlant(int _type) : Plant(_type) {
+AttackingPlant::AttackingPlant(int _type, vector<double> peashooter_data, vector<double> icepeashooter_data) : Plant(_type) {
     if(type == 0) {
-        number_of_idle_frames = 20;
-        if(!texture.loadFromFile("assets/peashooter/peashooters/1.png")) {
-            exit(0);
-        }
-        speed_effect = 1;
-        health = 5;
-        damage = 1;
-        cooldown = 2;
-        hit_rate = 1;
-        speed = 2;
-        price = 100;
+        set_data_of_peashooter(peashooter_data);
     } else { 
-        number_of_idle_frames = 18;
-        if(!texture.loadFromFile("assets/Icepeoshooter/Icepeoshooter/1.png")) {
-            exit(0);
-        }
-        speed_effect = 0.5;
-        health = 5;
-        damage = 1;
-        cooldown = 3;
-        hit_rate = 1;
-        speed = 2;
-        price = 175;
+        set_data_of_icepeashooter(icepeashooter_data);
     }
     store_textures();
+}
+
+void AttackingPlant::set_data_of_peashooter(vector<double> peashooter_data){
+    number_of_idle_frames = 20;
+    if(!texture.loadFromFile("assets/peashooter/peashooters/1.png")) {
+        exit(0);
+    }
+    speed_effect = 1;
+    damage = peashooter_data[0];
+    health = peashooter_data[1];
+    cooldown = peashooter_data[2];
+    hit_rate = peashooter_data[3];
+    speed = peashooter_data[4];
+    price = peashooter_data[5];
+}
+
+void AttackingPlant::set_data_of_icepeashooter(vector<double> icepeashooter_data){
+    number_of_idle_frames = 18;
+    if(!texture.loadFromFile("assets/Icepeoshooter/Icepeoshooter/1.png")) {
+        exit(0);
+    }
+    speed_effect = 0.5;
+    damage = icepeashooter_data[0];
+    health = icepeashooter_data[1];
+    cooldown = icepeashooter_data[2];
+    hit_rate = icepeashooter_data[3];
+    speed = icepeashooter_data[4];
+    price = icepeashooter_data[5];
 }
 
 void AttackingPlant::build_animation() {
@@ -54,7 +62,7 @@ Bullet* AttackingPlant::shoot() {
     if(!is_planted)
         return NULL;
     Time elapsed = action_clock.getElapsedTime();
-    if(elapsed.asSeconds() > 1) {
+    if(elapsed.asSeconds() > hit_rate) {
         action_clock.restart();
         return (new Bullet({sprite.getPosition().x + 2 * sprite.getGlobalBounds().width/3, sprite.getPosition().y + 30}, type, width, height));
     }

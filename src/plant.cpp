@@ -1,6 +1,6 @@
 #include "../include/plant.hpp"
 
-Plant::Plant(int _type) {
+Plant::Plant(int _type){
     type = _type;
     rect.top = 0;
     rect.left = 0;

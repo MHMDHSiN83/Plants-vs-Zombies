@@ -24,7 +24,7 @@ enum Status {
 
 class System {
 public:
-    System();
+    System(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data);
     ~System();
     void run();
 private:
@@ -73,6 +73,19 @@ private:
     int calculate_height_position(int tile);
     void update_bullets();
     void render_bullets();
+    /////////////////
+    void set_information(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data);
+    vector<double> regular_zombie;
+    // hairMetalGargantuar zombie
+    vector<double> peashooter_data;
+    vector<double> icepeashooter_data;
+    vector<double> kernelPult_data;
+    vector<double> sun_flower_data;
+    vector<double> walnut_data;
+    /////////////////////
+    vector<double> zombies_attacking_data;
+    /////////////////////
+    vector<double> sunshine_data;
     void handle_collision();
     void handle_zombie_bullet_collision();
     void handle_zombie_plant_collision();
