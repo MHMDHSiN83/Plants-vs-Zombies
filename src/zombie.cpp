@@ -86,6 +86,7 @@ void Zombie::build_animation_of_normal_zombie() {
         if(timer_normal_zombie == 156) timer_normal_zombie = 0;
     }
     else {
+     //   sprite.setScale(1, 1);
         timer_eating_normal_zombie++;
         int counter = ((timer_eating_normal_zombie/5 + 1) % NUMBER_OF_EATING_FRAMES_NORMAL_ZOMBIE )+ 1;
         sprite.setTexture(textures2[counter - 1]);
@@ -101,6 +102,7 @@ void Zombie::build_animation_of_giant_zombie() {
         if(timer_giant_zombie == 306) timer_giant_zombie = 0;
     }
     else {
+        //sprite.setScale(0.7, 0.7);
         timer_eating_giant_zombie++;
         int counter = ((timer_eating_giant_zombie/5 + 1) % NUMBER_OF_EATING_FRAMES_GIANT_ZOMBIE )+ 1;
         sprite.setTexture(textures_of_eating_giant[counter - 1]);
