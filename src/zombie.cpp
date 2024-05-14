@@ -10,19 +10,20 @@ Zombie::Zombie(int _type, Vector2f position, vector<double> regular_zombie, vect
         set_data_of_normal_zombie(regular_zombie, zombies_attacking_data, _height);
         store_textures_of_normal_zombie();
         sprite.setScale(0.5, 0.5);
-        sprite.setPosition(position.x, MIN_HEIGHT + position.y - sprite.getGlobalBounds().height + 80);
+        sprite.setTexture(texture);
+        sprite.setTextureRect(rect);
+        sprite.setPosition(position.x,  position.y - sprite.getGlobalBounds().height / 2);
 
     }
     else {
         set_data_of_giant_zombie(regular_zombie, zombies_attacking_data, _height);
         store_textures_of_giant_zombie();
         sprite.setScale(0.7, 0.7);
-        sprite.setPosition(position.x, MIN_HEIGHT + position.y - sprite.getGlobalBounds().height);
+        sprite.setTexture(texture);
+        sprite.setTextureRect(rect);
+        sprite.setPosition(position.x, position.y - 2 * sprite.getGlobalBounds().height / 3);
 
     }
-    sprite.setTexture(texture);
-    sprite.setTextureRect(rect);
-    sprite.setPosition(position.x, MIN_HEIGHT + position.y - sprite.getGlobalBounds().height + 80);
 }
 
 void Zombie::set_data_of_normal_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height){

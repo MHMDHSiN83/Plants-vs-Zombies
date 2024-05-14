@@ -37,6 +37,8 @@ private:
     Card* cards[PLANTS_NUMBER];
     Texture background_texture;
     Sprite background_sprite;
+    Texture pause_menu_texture;
+    Sprite pause_menu_sprite;
     // pair<pair<float, float>, pair<float, float>> planting_area;
     Music music;
     bool tiles_status[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH];
@@ -93,4 +95,7 @@ private:
     void render_main_menu();
     void handle_mouse_pressed_main_menu(Vector2i mouse_position);
     void set_background(string path);
+    void key_pressed(Event event);
+    void render_pause_menu();
+    void handle_mouse_pressed_pause_menu(Vector2i mouse_position);
 };

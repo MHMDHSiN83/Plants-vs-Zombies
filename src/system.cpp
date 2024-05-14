@@ -42,6 +42,13 @@ System::System(vector<double> zombies_data, vector<double> plant_data, vector<do
     for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
         for (int j = 0; j < NUMBER_OF_TILE_WIDTH; j++)
             tiles_status[i][j] = 0;
+    if(!pause_menu_texture.loadFromFile("assets/pause_menu.png")) {
+        exit(0);
+    }
+    // screen_size = window.getSize();
+    // background_sprite.setScale(screen_size.x / (float)background_texture.getSize().x, screen_size.y / (float)background_texture.getSize().y);
+    pause_menu_sprite.setTexture(pause_menu_texture);
+    pause_menu_sprite.setPosition(screen_size.x / 2 - pause_menu_sprite.getGlobalBounds().width / 2, screen_size.y / 2 - pause_menu_sprite.getGlobalBounds().height / 2);
 }
 
 void System::set_information(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data){
@@ -113,6 +120,13 @@ void System::render() {
         render_sunshines();
         break;
     case (PAUSE_MENU):
+        render_plants();
+        render_zombies();
+        render_cards();
+        score_box->render(&window, sun);
+        render_bullets();
+        render_sunshines();
+        render_pause_menu();
         break;
     case (MAIN_MENU):
         render_main_menu();
@@ -139,6 +153,8 @@ void System::handle_events() {
         case (Event::MouseButtonPressed):
             mouse_pressed(event);
             break;
+        case (Event::KeyPressed):
+            key_pressed(event);
         }
     }
     window.display();
@@ -163,6 +179,7 @@ void System::mouse_pressed(Event event) {
             handle_mouse_pressed_sunshines(mouse_position);
             break;
         case (PAUSE_MENU):
+            handle_mouse_pressed_pause_menu(mouse_position);
             break;
         case (MAIN_MENU):
             handle_mouse_pressed_main_menu(mouse_position);
@@ -300,8 +317,8 @@ void System::create_zombie() {
     if(elapsed.asSeconds() > ZOMBIE_TIMER) {
         int rand = generate_random_number_between(1,5);
         int type = generate_random_number_between(0,1);
-        Vector2f zombie_position(MAX_WIDTH, calculate_height_position(1));
-        zombies.push_back(new Zombie(0, zombie_position, regular_zombie, zombies_attacking_data, 1));
+        Vector2f zombie_position(MAX_WIDTH, calculate_height_position(rand));
+        zombies.push_back(new Zombie(type, zombie_position, regular_zombie, zombies_attacking_data, rand));
         zombie_clock.restart();
     }
 }
@@ -310,7 +327,6 @@ void System::render_zombies() {
     for (Zombie* zombie: zombies) {
         zombie->render(&window);
     }
-    
 }
 
 void System::update_zombies() {
@@ -413,7 +429,7 @@ void System::handle_zombie_plant_collision() {
             {
                 FloatRect zombie_rect = zombie->get_rect();
                 if(zombie_rect.intersects(plant_rect) and is_on_same_height(plants[i], zombie)) {
-                        zombie->change_eating_situation();
+                    zombie->change_eating_situation();
                 }
             }
             tiles_status[plants[i]->get_height() - 1][plants[i]->get_width() - 1] = false;
@@ -464,4 +480,17 @@ void System::set_background(string path) {
     screen_size = window.getSize();
     background_sprite.setScale(screen_size.x / (float)background_texture.getSize().x, screen_size.y / (float)background_texture.getSize().y);
     background_sprite.setTexture(background_texture);
+}
+
+void System::key_pressed(Event event) {
+    if(event.key.code = Keyboard::Escape) {
+        status = PAUSE_MENU;
+    }
+}
+
+void System::render_pause_menu() {
+    window.draw(pause_menu_sprite);
+}
+void System::handle_mouse_pressed_pause_menu(Vector2i mouse_position) {
+    status = PLAYING;
 }

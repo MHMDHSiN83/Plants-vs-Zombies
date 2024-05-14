@@ -16,6 +16,7 @@ public:
 private:
     int type;
     bool is_clicked;
+    bool able_to_plant = false;
     Texture texture;
     Texture pressed_texture;
     Sprite sprite;
@@ -24,4 +25,9 @@ private:
     Clock clock;
     double cooldown;
     double price;
+    Text time_text;
+    Text price_text;
+    Font font;
+    void set_able_to_plant(int sun);
+    void set_background();
 };
