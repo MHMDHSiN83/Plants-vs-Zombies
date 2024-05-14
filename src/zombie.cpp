@@ -24,6 +24,7 @@ Zombie::Zombie(int _type, Vector2f position, vector<double> regular_zombie, vect
         sprite.setPosition(position.x, position.y - 2 * sprite.getGlobalBounds().height / 3);
 
     }
+    current_speed = starting_speed;
 }
 
 void Zombie::set_data_of_normal_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height){
@@ -35,7 +36,7 @@ void Zombie::set_data_of_normal_zombie(vector<double> regular_zombie, vector<dou
     damage = regular_zombie[0];
     health = regular_zombie[1];
     hit_rate = regular_zombie[2];
-    speed = regular_zombie[3];
+    starting_speed = regular_zombie[3];
     time_to_finish = zombies_attacking_data[0];
     new_mode = zombies_attacking_data[1];
     number_of_zombie = zombies_attacking_data[2];
@@ -52,7 +53,7 @@ void Zombie::set_data_of_giant_zombie(vector<double> regular_zombie, vector<doub
     damage = regular_zombie[4];
     health = regular_zombie[5];
     hit_rate = regular_zombie[6];
-    speed = regular_zombie[7];
+    starting_speed = regular_zombie[7];
     time_to_finish = zombies_attacking_data[0];
     new_mode = zombies_attacking_data[1];
     number_of_zombie = zombies_attacking_data[2];
@@ -62,7 +63,13 @@ void Zombie::set_data_of_giant_zombie(vector<double> regular_zombie, vector<doub
 
 void Zombie::update() {
     if(!eating) {
-        sprite.setPosition(sprite.getPosition().x - speed, sprite.getPosition().y);
+        sprite.setPosition(sprite.getPosition().x - current_speed, sprite.getPosition().y);
+    }
+    if(current_speed != starting_speed) {
+        Time elapsed = freeze_clock.getElapsedTime();
+        if(elapsed.asSeconds() > FREEZE_TIME) {
+            current_speed = starting_speed;
+        }
     }
 }
 
@@ -102,7 +109,8 @@ void Zombie::build_animation_of_giant_zombie() {
         if(timer_giant_zombie == 306) timer_giant_zombie = 0;
     }
     else {
-        //sprite.setScale(0.7, 0.7);
+        // sprite.setScale(0.8, 0.8);
+        sprite.getPosition();
         timer_eating_giant_zombie++;
         int counter = ((timer_eating_giant_zombie/5 + 1) % NUMBER_OF_EATING_FRAMES_GIANT_ZOMBIE )+ 1;
         sprite.setTexture(textures_of_eating_giant[counter - 1]);
@@ -157,7 +165,16 @@ bool Zombie::is_dead() {
 }
 
 
-void Zombie::change_eating_situation() { eating = !eating; }
+void Zombie::change_eating_situation() { 
+    if(!eating) {
+        eating = true;
+        // sprite.setPosition(sprite.getPosition().x - 50, sprite.getPosition().y - 100);
+        // sprite.setScale(1, 1);
+    } else {
+        eating = false;
+        // sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 40);
+    }
+}
 
 double Zombie::get_damage() { return damage; }
 bool Zombie::is_eating() { return eating; }
@@ -170,4 +187,11 @@ bool Zombie::is_out() {
     if(sprite.getPosition().x < 0)
         return true;
     return false;
+}
+
+void Zombie::speed_effect(double speed_effect) {
+    if(speed_effect != 1) {
+        current_speed = starting_speed * speed_effect;
+        freeze_clock.restart();
+    }
 }

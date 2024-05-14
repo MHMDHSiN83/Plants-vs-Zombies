@@ -5,7 +5,7 @@
 
 class Bullet {
 public:
-    Bullet(Vector2f position, int type, int _width, int _height, double _speed, double _damage);
+    Bullet(Vector2f position, int _type, int _width, int _height, double _speed, double _damage);
     ~Bullet();
     void update();
     void render(RenderWindow* Window);
@@ -14,7 +14,7 @@ public:
     FloatRect get_rect();
     int get_height();
     int get_damage();
-
+    double get_speed_effect();
 private:
     void set_texture(int type);
     Texture texture;
@@ -24,4 +24,5 @@ private:
     int width;
     int height;
     int damage;
+    int type;
 };

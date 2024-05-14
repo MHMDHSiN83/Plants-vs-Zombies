@@ -217,7 +217,6 @@ void System::update_plants(Vector2i position) {
     {
         plant->update(position);
         if(plant->is_time_to_create_sunshine()) {
-            cout << "test" << endl;
             Vector2f plant_position = plant->get_position();
             sunshines.push_back(new Sunshine({plant_position.x + 60, plant_position.y + 60}, sunshine_data, 0));
         }
@@ -322,8 +321,8 @@ void System::create_zombie() {
     if(elapsed.asSeconds() > ZOMBIE_TIMER) {
         int rand = generate_random_number_between(1,5);
         int type = generate_random_number_between(0,1);
-        Vector2f zombie_position(MAX_WIDTH, calculate_height_position(rand));
-        zombies.push_back(new Zombie(type, zombie_position, regular_zombie, zombies_attacking_data, rand));
+        Vector2f zombie_position(MAX_WIDTH, calculate_height_position(1));
+        zombies.push_back(new Zombie(1, zombie_position, regular_zombie, zombies_attacking_data, 1));
         zombie_clock.restart();
     }
 }
@@ -397,6 +396,7 @@ void System::handle_zombie_bullet_collision() {
             FloatRect zombie_rect = zombies[j]->get_rect();
             if(zombie_rect.intersects(bullet_rect) and is_on_same_height(bullets[i], zombies[j])) {
                 zombies[j]->decrease_health(bullets[i]->get_damage());
+                zombies[j]->speed_effect(bullets[i]->get_speed_effect());
                 if(zombies[j]->is_dead()) {
                     zombies.erase(zombies.begin() + j);
                     j--;

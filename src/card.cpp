@@ -32,7 +32,6 @@ Card::Card(Vector2i first_card_position, int _type, double _cooldown, double _pr
     price_text.setFillColor(Color::Black);
     price_text.setStyle(Text::Bold);
     price_text.setString(to_string((int)price));
-    cout << price_text.getGlobalBounds().width << endl;
     price_text.setPosition(sprite.getPosition().x + sprite.getGlobalBounds().width -  price_text.getGlobalBounds().width - 30, 
                             sprite.getPosition().y + sprite.getGlobalBounds().height -  price_text.getGlobalBounds().height - 20);
 }

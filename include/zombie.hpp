@@ -24,11 +24,15 @@ public:
     Time get_elapsed();
     void restart_clock();
     bool is_out();
+    void speed_effect(double speed_effect);
 private:
     double damage;
+    Vector2f position;
     double health;
     double hit_rate;
-    double speed;
+    double starting_speed;
+    double current_speed;
+
     void set_data_of_normal_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
     void set_data_of_giant_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
     Texture texture;
@@ -49,8 +53,9 @@ private:
     int height;
     bool eating = false;
     Clock hit_clock;
+    Clock freeze_clock;
     int type;
-    //////////////////////
     vector<Texture> textures_of_giant;
     vector<Texture> textures_of_eating_giant;
+
 };
