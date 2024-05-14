@@ -216,6 +216,11 @@ void System::update_plants(Vector2i position) {
     for (Plant* plant : plants)
     {
         plant->update(position);
+        if(plant->is_time_to_create_sunshine()) {
+            cout << "test" << endl;
+            Vector2f plant_position = plant->get_position();
+            sunshines.push_back(new Sunshine({plant_position.x + 60, plant_position.y + 60}, sunshine_data, 0));
+        }
         if(!is_there_zombie_in_front(plant))  {
             continue;
         }
@@ -299,7 +304,7 @@ void System::create_sunshine() {
     Time elapsed = sunshine_clock.getElapsedTime();
     if(elapsed.asSeconds() > sunshine_data[1]) {
         Vector2f sunshine_position(generate_random_number_between(MIN_WIDTH, MAX_WIDTH), 0);
-        sunshines.push_back(new Sunshine(sunshine_position, sunshine_data));
+        sunshines.push_back(new Sunshine(sunshine_position, sunshine_data, 1));
         sunshine_clock.restart();
     }
 }

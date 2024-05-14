@@ -42,3 +42,14 @@ bool Sunflower::is_dead() {
         return true;
     return false;
 }
+
+bool Sunflower::is_time_to_create_sunshine() {
+    if(!is_planted)
+        return false;
+    Time elapsed = create_sunshine.getElapsedTime();
+    if(elapsed.asSeconds() > hit_rate) {
+        create_sunshine.restart();
+        return true;
+    }
+    return false;
+}

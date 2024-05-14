@@ -17,9 +17,11 @@ public:
     FloatRect get_rect();
     virtual void decrease_health(double zombie_damage);
     virtual bool is_dead();
+    virtual bool is_time_to_create_sunshine();
+    Vector2f get_position();
 protected:
-    Texture texture;
     Sprite sprite;
+    Texture texture;
     IntRect rect;
     int width = 0;
     int height = 0;

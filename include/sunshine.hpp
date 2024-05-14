@@ -5,7 +5,7 @@
 
 class Sunshine {
 public:
-    Sunshine(Vector2f position, vector<double> sunshine_data);
+    Sunshine(Vector2f position, vector<double> sunshine_data, bool _type);
     ~Sunshine();
     void update();
     void render(RenderWindow* Window);
@@ -17,5 +17,6 @@ private:
     IntRect rect;
     double speed;
     double interval;
+    bool type;
     void set_data(vector<double> sunshine_data);
 };

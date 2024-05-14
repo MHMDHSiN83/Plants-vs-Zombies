@@ -8,9 +8,12 @@ public:
     void build_animation();
     void decrease_health(double zombie_damage);
     bool is_dead();
+    bool is_time_to_create_sunshine();
+
 private:
     void store_textures();
     vector<Texture> textures;
     int number_of_idle_frames = 31;
     void set_data_of_sunflower(vector<double> sunflower_data);
+    Clock create_sunshine;
 };

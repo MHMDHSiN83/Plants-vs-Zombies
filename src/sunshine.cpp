@@ -1,7 +1,8 @@
 
 #include "../include/sunshine.hpp"
 
-Sunshine::Sunshine(Vector2f position, vector<double> sunshine_data) {
+Sunshine::Sunshine(Vector2f position, vector<double> sunshine_data, bool _type) {
+    type = _type;
     rect.top = 0;
     rect.left = 0;
     rect.width = 117;
@@ -22,7 +23,8 @@ void Sunshine::set_data(vector<double> sunshine_data){
 }
 
 void Sunshine::update() {
-    sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + speed);
+    if(type)
+        sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + speed);
 }
 
 void Sunshine::render(RenderWindow* window) {

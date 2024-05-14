@@ -110,6 +110,9 @@ int Plant::get_card_index() { return type; }
 
 Bullet* Plant::shoot() { return NULL; }
 
+bool Plant::is_time_to_create_sunshine() { return false; }
+
+
 int Plant::get_height() { return height; }
 int Plant::get_width() { return width; }
 
@@ -120,4 +123,8 @@ void Plant::decrease_health(double zombie_damage) {  }
 
 bool Plant::is_dead() {
     return false;
+}
+
+Vector2f Plant::get_position() {
+    return sprite.getPosition();
 }
