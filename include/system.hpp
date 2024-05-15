@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "require.hpp"
 #include "card.hpp"
 #include "attackingPlant.hpp"
@@ -13,14 +14,6 @@
 #include "bullet.hpp"
 
 
-enum Status {
-    PLAYING,
-    PAUSE_MENU,
-    MAIN_MENU,
-    VICTORY_SCREEN,
-    GAMEOVER_SCREEN,
-    EXIT,
-};
 
 class System {
 public:
@@ -61,6 +54,7 @@ private:
     void create_plant(int i);
     int sun = 0;
     Clock sunshine_clock;
+    Clock wave_clock;
     int sunshine_timer = SUNSHINE_TIMER;
     int generate_random_number_between(int start, int end);
     ScoreBox* score_box;
@@ -70,7 +64,6 @@ private:
     void build_animation_of_plants();
     void build_animation_of_zombie();
     Clock zombie_clock;
-    Clock zombie_hit_clock;
     Vector2u screen_size;
     int calculate_height_position(int tile);
     void update_bullets();
@@ -84,8 +77,11 @@ private:
     vector<double> kernelPult_data;
     vector<double> sun_flower_data;
     vector<double> walnut_data;
-    vector<double> zombies_attacking_data;
     vector<double> sunshine_data;
+    double win_timer;
+    double each_wave_time;
+    double zombie_number_each_wave;
+    double extra_zombie_each_wave;
     void handle_collision();
     void handle_zombie_bullet_collision();
     void handle_zombie_plant_collision();
@@ -98,4 +94,5 @@ private:
     void key_pressed(Event event);
     void render_pause_menu();
     void handle_mouse_pressed_pause_menu(Vector2i mouse_position);
+    void update_wave();
 };

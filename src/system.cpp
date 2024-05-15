@@ -12,7 +12,7 @@ System::System(vector<double> zombies_data, vector<double> plant_data, vector<do
 
     score_box = new ScoreBox;
 
-    // play_music();
+    play_music();
     
     set_information(zombies_data, plant_data, attack_data, sun_data);
     for(int i = 0; i < PLANTS_NUMBER; i++) {
@@ -45,8 +45,6 @@ System::System(vector<double> zombies_data, vector<double> plant_data, vector<do
     if(!pause_menu_texture.loadFromFile("assets/pause_menu.png")) {
         exit(0);
     }
-    // screen_size = window.getSize();
-    // background_sprite.setScale(screen_size.x / (float)background_texture.getSize().x, screen_size.y / (float)background_texture.getSize().y);
     pause_menu_sprite.setTexture(pause_menu_texture);
     pause_menu_sprite.setPosition(screen_size.x / 2 - pause_menu_sprite.getGlobalBounds().width / 2, screen_size.y / 2 - pause_menu_sprite.getGlobalBounds().height / 2);
 }
@@ -64,8 +62,11 @@ void System::set_information(vector<double> zombies_data, vector<double> plant_d
         sun_flower_data.push_back(plant_data[i]);
     for(int i = 24; i < 30; i++)
         walnut_data.push_back(plant_data[i]);
-    zombies_attacking_data = attack_data;
     sunshine_data = sun_data;
+    win_timer = attack_data[0];
+    each_wave_time = attack_data[1];
+    zombie_number_each_wave = attack_data[2];
+    extra_zombie_each_wave = attack_data[3];
 }
 
 System:: ~System() {}
@@ -93,10 +94,13 @@ void System::update() {
         create_zombie();
         update_bullets();
         handle_collision();
+        update_wave();
         break;
     case (PAUSE_MENU):
+        // reset_clocks();
         break;
     case (MAIN_MENU):
+        // reset_clocks();
         break;
     case (VICTORY_SCREEN):
         break;
@@ -318,11 +322,11 @@ int System::generate_random_number_between(int start, int end) {
 
 void System::create_zombie() {
     Time elapsed = zombie_clock.getElapsedTime();
-    if(elapsed.asSeconds() > ZOMBIE_TIMER) {
+    if(elapsed.asSeconds() > each_wave_time / zombie_number_each_wave) {
         int rand = generate_random_number_between(1,5);
         int type = generate_random_number_between(0,1);
         Vector2f zombie_position(MAX_WIDTH, calculate_height_position(1));
-        zombies.push_back(new Zombie(1, zombie_position, regular_zombie, zombies_attacking_data, 1));
+        zombies.push_back(new Zombie(1, zombie_position, regular_zombie, 1));
         zombie_clock.restart();
     }
 }
@@ -498,4 +502,12 @@ void System::render_pause_menu() {
 }
 void System::handle_mouse_pressed_pause_menu(Vector2i mouse_position) {
     status = PLAYING;
+}
+
+void System::update_wave() {
+    Time elapsed = wave_clock.getElapsedTime();
+    if(elapsed.asSeconds() > each_wave_time) {
+        zombie_number_each_wave += extra_zombie_each_wave;
+        wave_clock.restart();
+    }
 }

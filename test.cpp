@@ -3,44 +3,49 @@
 
 int main()
 {
-    // Create the SFML window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Text Size");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Clock Pause Example");
 
-    // Create a font
-    sf::Font font;
-    if (!font.loadFromFile("assets/ARIAL.TTF")) // Load a font
-    {
-        std::cerr << "Failed to load font!" << std::endl;
-        return 1;
-    }
+    sf::Clock clock; // Initialize the clock
+    sf::Time pauseTime; // Time when the clock was paused
+    bool paused = false; // Flag to indicate if the clock is paused
 
-    // Create a text
-    sf::Text text("Hello, SFML!", font, 24);
-
-    // Get the size of the text
-    sf::FloatRect textBounds = text.getGlobalBounds();
-
-    // Display the size of the text
-    std::cout << "Text size: " << textBounds.width << " x " << textBounds.height << std::endl;
-
-    // Main loop
     while (window.isOpen())
     {
-        // Process events
         sf::Event event;
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
+            {
+                if (!paused)
+                {
+                    // Pause the clock
+                    pauseTime = clock.getElapsedTime();
+                    paused = true;
+                    std::cout << "Clock paused.\n";
+                }
+                else
+                {
+                    // Resume the clock
+                    sf::Time elapsed = clock.getElapsedTime();
+                    sf::Time pauseDuration = elapsed - pauseTime;
+                    clock.restart();
+                    clock += pauseDuration.asMicroseconds();
+                    paused = false;
+                    std::cout << "Clock resumed.\n";
+                }
+            }
         }
 
-        // Clear the window
+        if (!paused)
+        {
+            // Update the clock when it's not paused
+            sf::Time elapsed = clock.getElapsedTime();
+            std::cout << "Elapsed time: " << elapsed.asSeconds() << " seconds.\n";
+        }
+
         window.clear();
-
-        // Draw the text
-        window.draw(text);
-
-        // Display the window
         window.display();
     }
 

@@ -1,13 +1,13 @@
 
 #include "../include/zombie.hpp"
 
-Zombie::Zombie(int _type, Vector2f position, vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height) {
+Zombie::Zombie(int _type, Vector2f position, vector<double> regular_zombie, int _height) {
     rect.top = 0;
     rect.left = 0;
     
     type = _type;
     if(type == 0){
-        set_data_of_normal_zombie(regular_zombie, zombies_attacking_data, _height);
+        set_data_of_normal_zombie(regular_zombie, _height);
         store_textures_of_normal_zombie();
         sprite.setScale(0.5, 0.5);
         sprite.setTexture(texture);
@@ -16,7 +16,7 @@ Zombie::Zombie(int _type, Vector2f position, vector<double> regular_zombie, vect
 
     }
     else {
-        set_data_of_giant_zombie(regular_zombie, zombies_attacking_data, _height);
+        set_data_of_giant_zombie(regular_zombie, _height);
         store_textures_of_giant_zombie();
         sprite.setScale(0.7, 0.7);
         sprite.setTexture(texture);
@@ -27,7 +27,7 @@ Zombie::Zombie(int _type, Vector2f position, vector<double> regular_zombie, vect
     current_speed = starting_speed;
 }
 
-void Zombie::set_data_of_normal_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height){
+void Zombie::set_data_of_normal_zombie(vector<double> regular_zombie, int _height){
     if(!texture.loadFromFile("assets/some picture/Zombie_healthy.png")) {
         exit(0);
     }
@@ -37,14 +37,10 @@ void Zombie::set_data_of_normal_zombie(vector<double> regular_zombie, vector<dou
     health = regular_zombie[1];
     hit_rate = regular_zombie[2];
     starting_speed = regular_zombie[3];
-    time_to_finish = zombies_attacking_data[0];
-    new_mode = zombies_attacking_data[1];
-    number_of_zombie = zombies_attacking_data[2];
-    number_of_add_zombie = zombies_attacking_data[3];
     height = _height;
 }
 
-void Zombie::set_data_of_giant_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height){
+void Zombie::set_data_of_giant_zombie(vector<double> regular_zombie, int _height){
     if(!texture.loadFromFile("assets/QQ/1.png")) {
         exit(0);
     }
@@ -54,10 +50,6 @@ void Zombie::set_data_of_giant_zombie(vector<double> regular_zombie, vector<doub
     health = regular_zombie[5];
     hit_rate = regular_zombie[6];
     starting_speed = regular_zombie[7];
-    time_to_finish = zombies_attacking_data[0];
-    new_mode = zombies_attacking_data[1];
-    number_of_zombie = zombies_attacking_data[2];
-    number_of_add_zombie = zombies_attacking_data[3];
     height = _height;
 }
 

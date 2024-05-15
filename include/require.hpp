@@ -40,8 +40,7 @@ const float TILE_HEIGHT = (MAX_HEIGHT - MIN_HEIGHT) / NUMBER_OF_TILE_HEIGHT;
 const int PLANTS_NUMBER = 4;
 
 const Vector2i FIRST_CARD_POSITION = {75,250};
-const int SUNSHINE_TIMER = 4;
-const int ZOMBIE_TIMER = 4;
+const int SUNSHINE_TIMER = 1;
 
 const string INPUT_FILE_ADDRESS = "input.csv";
 
@@ -51,4 +50,13 @@ const int NUMBER_OF_IDLE_FRAMES_GIANT_ZOMBIE = 58;
 const int NUMBER_OF_EATING_FRAMES_GIANT_ZOMBIE = 29;
 
 const int FREEZE_TIME = 5;
+
+enum Status {
+    PLAYING,
+    PAUSE_MENU,
+    MAIN_MENU,
+    VICTORY_SCREEN,
+    GAMEOVER_SCREEN,
+    EXIT,
+};
 

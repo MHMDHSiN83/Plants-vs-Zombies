@@ -5,7 +5,7 @@
 
 class Zombie {
 public:
-    Zombie(int _type, Vector2f position, vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
+    Zombie(int _type, Vector2f position, vector<double> regular_zombie, int _height);
     ~Zombie();
     void update();
     void render(RenderWindow* Window);
@@ -33,8 +33,8 @@ private:
     double starting_speed;
     double current_speed;
 
-    void set_data_of_normal_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
-    void set_data_of_giant_zombie(vector<double> regular_zombie, vector<double> zombies_attacking_data, int _height);
+    void set_data_of_normal_zombie(vector<double> regular_zombie, int _height);
+    void set_data_of_giant_zombie(vector<double> regular_zombie, int _height);
     Texture texture;
     vector<Texture> textures;
     vector<Texture> textures2;
@@ -44,10 +44,6 @@ private:
     int timer_eating_normal_zombie = 1;
     int timer_giant_zombie = 1;
     int timer_eating_giant_zombie = 1;
-    double time_to_finish;
-    double new_mode;
-    double number_of_zombie;
-    double number_of_add_zombie;
     void store_textures_of_normal_zombie();
     void store_textures_of_giant_zombie();
     int height;
