@@ -1,15 +1,15 @@
 #include "../include/card.hpp"
 // #include "../include/plant.hpp"
-Card::Card(Vector2i first_card_position, int _type, double _cooldown, double _price) {
+Card::Card(Vector2i first_card_position, int _type, double _cooldown, double _price, int index) {
     type = _type;
     set_texture();
     rect.top = 0;
     rect.left = 0;
-    rect.width = 188;//280
-    rect.height = 112;//174
+    rect.width = 188;
+    rect.height = 112;
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
-    first_card_position.y += _type * 140;
+    first_card_position.y += index * 140;
     Vector2f pos(first_card_position.x, first_card_position.y);
     sprite.setPosition(pos);
     sprite.setScale(1,1);
@@ -141,3 +141,5 @@ double Card::get_price() {
 void Card::disable() {
     is_clicked = true;
 }
+
+int Card::get_type() { return type; }

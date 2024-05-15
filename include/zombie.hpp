@@ -5,7 +5,7 @@
 
 class Zombie {
 public:
-    Zombie(int _type, Vector2f position, vector<double> regular_zombie, int _height);
+    Zombie(int _type, Vector2f position, vector<double> zombie_data, int _height);
     ~Zombie();
     void update();
     void render(RenderWindow* Window);
@@ -33,8 +33,8 @@ private:
     double starting_speed;
     double current_speed;
 
-    void set_data_of_normal_zombie(vector<double> regular_zombie, int _height);
-    void set_data_of_giant_zombie(vector<double> regular_zombie, int _height);
+    void set_data_of_normal_zombie(Vector2f position);
+    void set_data_of_giant_zombie(Vector2f position);
     Texture texture;
     vector<Texture> textures;
     vector<Texture> textures2;

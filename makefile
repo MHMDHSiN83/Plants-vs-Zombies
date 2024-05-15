@@ -1,10 +1,10 @@
 CXX = g++ -g -std=c++20
 
 FILES = build/main.o build/system.o build/peashooter.o build/card.o build/plant.o build/sunflower.o build/walnut.o build/sunshine.o build/scoreBox.o build/icePeashooter.o build/zombie.o build/attackingPlant.o build/bullet.o
-EXE = program.out
+EXE = pvz.out
 LFLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-clean: all
-	rm -f $(FILES)
+# clean: all
+# 	rm -f $(FILES)
 
 all: $(EXE)
 

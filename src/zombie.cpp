@@ -1,56 +1,46 @@
 
 #include "../include/zombie.hpp"
 
-Zombie::Zombie(int _type, Vector2f position, vector<double> regular_zombie, int _height) {
+Zombie::Zombie(int _type, Vector2f position, vector<double> zombie_data, int _height) {
     rect.top = 0;
     rect.left = 0;
-    
     type = _type;
-    if(type == 0){
-        set_data_of_normal_zombie(regular_zombie, _height);
-        store_textures_of_normal_zombie();
-        sprite.setScale(0.5, 0.5);
-        sprite.setTexture(texture);
-        sprite.setTextureRect(rect);
-        sprite.setPosition(position.x,  position.y - sprite.getGlobalBounds().height / 2);
-
-    }
-    else {
-        set_data_of_giant_zombie(regular_zombie, _height);
-        store_textures_of_giant_zombie();
-        sprite.setScale(0.7, 0.7);
-        sprite.setTexture(texture);
-        sprite.setTextureRect(rect);
-        sprite.setPosition(position.x, position.y - 2 * sprite.getGlobalBounds().height / 3);
-
-    }
+    damage = zombie_data[0];
+    health = zombie_data[1];
+    hit_rate = zombie_data[2];
+    starting_speed = zombie_data[3];
+    height = _height;
     current_speed = starting_speed;
+    if(type == 0)
+        set_data_of_normal_zombie(position);
+    else
+        set_data_of_giant_zombie(position);
 }
 
-void Zombie::set_data_of_normal_zombie(vector<double> regular_zombie, int _height){
+void Zombie::set_data_of_normal_zombie(Vector2f position){
     if(!texture.loadFromFile("assets/some picture/Zombie_healthy.png")) {
         exit(0);
     }
     rect.width = 335;
     rect.height = 745;
-    damage = regular_zombie[0];
-    health = regular_zombie[1];
-    hit_rate = regular_zombie[2];
-    starting_speed = regular_zombie[3];
-    height = _height;
+    store_textures_of_normal_zombie();
+    sprite.setScale(0.5, 0.5);
+    sprite.setTexture(texture);
+    sprite.setTextureRect(rect);
+    sprite.setPosition(position.x,  position.y - sprite.getGlobalBounds().height / 2);
 }
 
-void Zombie::set_data_of_giant_zombie(vector<double> regular_zombie, int _height){
+void Zombie::set_data_of_giant_zombie(Vector2f position){
     if(!texture.loadFromFile("assets/QQ/1.png")) {
         exit(0);
     }
     rect.width = 514;
     rect.height = 485;
-    damage = regular_zombie[4];
-    health = regular_zombie[5];
-    hit_rate = regular_zombie[6];
-    starting_speed = regular_zombie[7];
-    height = _height;
+    store_textures_of_giant_zombie();
+    sprite.setScale(0.7, 0.7);
+    sprite.setTexture(texture);
+    sprite.setTextureRect(rect);
+    sprite.setPosition(position.x, position.y - 2 * sprite.getGlobalBounds().height / 3);
 }
 
 void Zombie::update() {

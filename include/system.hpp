@@ -17,7 +17,7 @@
 
 class System {
 public:
-    System(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data);
+    System(vector<vector<double>> zombies_data, vector<vector<double>> plants_data, vector<double> attack_data, vector<double> sun_data);
     ~System();
     void run();
 private:
@@ -27,7 +27,7 @@ private:
     vector<Sunshine*> sunshines;
     vector<Zombie*> zombies;
     vector<Bullet*> bullets;
-    Card* cards[PLANTS_NUMBER];
+    vector<Card*> cards;
     Texture background_texture;
     Sprite background_sprite;
     Texture pause_menu_texture;
@@ -38,7 +38,7 @@ private:
     void update();
     void render();
     void handle_events();
-    void play_music();
+    void play_music(string path, bool loop);
     void mouse_pressed(Event event);
     void render_cards();
     void update_cards();
@@ -55,6 +55,7 @@ private:
     int sun = 0;
     Clock sunshine_clock;
     Clock wave_clock;
+    Clock game_clock;
     int sunshine_timer = SUNSHINE_TIMER;
     int generate_random_number_between(int start, int end);
     ScoreBox* score_box;
@@ -66,16 +67,17 @@ private:
     Clock zombie_clock;
     Vector2u screen_size;
     int calculate_height_position(int tile);
+    int cards_number;
     void update_bullets();
     void render_bullets();
     /////////////////
-    void set_information(vector<double> zombies_data, vector<double> plant_data, vector<double> attack_data, vector<double> sun_data);
+    void set_information(vector<vector<double>> zombies_data, vector<vector<double>> plants_data, vector<double> attack_data, vector<double> sun_data);
     vector<double> regular_zombie;
     vector<double> hair_metal_gargantuar_zombie;
     vector<double> peashooter_data;
     vector<double> icepeashooter_data;
     vector<double> kernelPult_data;
-    vector<double> sun_flower_data;
+    vector<double> sunflower_data;
     vector<double> walnut_data;
     vector<double> sunshine_data;
     double win_timer;
@@ -95,4 +97,8 @@ private:
     void render_pause_menu();
     void handle_mouse_pressed_pause_menu(Vector2i mouse_position);
     void update_wave();
+    void has_player_won();
+    void render_victory_screen();
+    Card* find_card_by_type(int type);
+
 };

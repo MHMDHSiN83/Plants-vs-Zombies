@@ -3,7 +3,7 @@
 
 class Card {
 public:
-    Card(Vector2i first_card_position, int type, double _cooldown, double _price);
+    Card(Vector2i first_card_position, int type, double _cooldown, double _price, int index);
     ~Card();
     void render(RenderWindow* window);
     void update(int sun);
@@ -13,6 +13,7 @@ public:
     void set_texture();
     double get_price();
     void disable();
+    int get_type();
 private:
     int type;
     bool is_clicked;
