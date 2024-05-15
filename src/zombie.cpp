@@ -177,3 +177,5 @@ void Zombie::speed_effect(double speed_effect) {
         freeze_clock.restart();
     }
 }
+
+Zombie::~Zombie() {}

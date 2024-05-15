@@ -2,19 +2,17 @@
 
 
 AttackingPlant::AttackingPlant(int _type, vector<double> peashooter_data, vector<double> icepeashooter_data) : Plant(_type) {
-    if(type == 0) {
+    if(type == 0)
         set_data_of_peashooter(peashooter_data);
-    } else { 
+    else
         set_data_of_icepeashooter(icepeashooter_data);
-    }
     store_textures();
 }
 
 void AttackingPlant::set_data_of_peashooter(vector<double> peashooter_data){
     number_of_idle_frames = 20;
-    if(!texture.loadFromFile("assets/peashooter/peashooters/1.png")) {
+    if(!texture.loadFromFile("assets/peashooter/peashooters/1.png"))
         exit(0);
-    }
     speed_effect = 1;
     damage = peashooter_data[0];
     health = peashooter_data[1];
@@ -26,9 +24,8 @@ void AttackingPlant::set_data_of_peashooter(vector<double> peashooter_data){
 
 void AttackingPlant::set_data_of_icepeashooter(vector<double> icepeashooter_data){
     number_of_idle_frames = 18;
-    if(!texture.loadFromFile("assets/Icepeoshooter/Icepeoshooter/1.png")) {
+    if(!texture.loadFromFile("assets/Icepeoshooter/Icepeoshooter/1.png"))
         exit(0);
-    }
     speed_effect = 0.5;
     damage = icepeashooter_data[0];
     health = icepeashooter_data[1];

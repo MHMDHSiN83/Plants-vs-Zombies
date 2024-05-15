@@ -2,7 +2,6 @@
 
 #include "require.hpp"
 
-
 class Bullet {
 public:
     Bullet(Vector2f position, int _type, int _width, int _height, double _speed, double _damage);

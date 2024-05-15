@@ -47,3 +47,4 @@ bool Sunshine::is_out(unsigned screen_height) {
     return false;
 }
 
+Sunshine::~Sunshine() {}

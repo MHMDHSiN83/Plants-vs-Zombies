@@ -22,20 +22,6 @@ vector<string> split(string input, char spliter)
     return splited_string;
 }
 
-vector<double> find_vector(string line){
-    string number = "";
-    vector <double> inf;
-    for(int i = 0; i < line.size(); i++){
-        if((line[i] >= 48 && line[i] <= 57) || line[i] == 46){
-            number += line[i];
-        }
-        if((line[i] == '-' && number != "" ) || i == line.size() - 1){
-            inf.push_back(stod(number));
-            number = "";
-        }
-    }
-    return inf;
-}
 
 vector <string> getting_input() {
     ifstream file("input.csv");
@@ -45,18 +31,11 @@ vector <string> getting_input() {
     }
     string line;
     vector<string> lines;
-    while (getline(file, line)) {
+    while (getline(file, line))
         lines.push_back(line);
-        
-    }
     file.close();
     return lines;
 }
-
-void set_vector(vector<string> &lines){
-    vector <double> zombies_inf = find_vector(lines[0]);
-}
-
 
 vector<vector<double>> get_zombies_data(string line) {
     vector<string> zombies = split(line, ',');
@@ -65,15 +44,12 @@ vector<vector<double>> get_zombies_data(string line) {
     {
         vector<string> each_zombie_data = split(zombies[i], '-');
         vector<double> row;
-        if(each_zombie_data[0] == "regular") {
+        if(each_zombie_data[0] == "regular")
             row.push_back(0);
-        } else {
+        else
             row.push_back(1);
-        }
         for (int j = 1; j < each_zombie_data.size(); j++)
-        {
             row.push_back(stod(each_zombie_data[j]));
-        }
         result.push_back(row);
     }
     return result;
@@ -103,11 +79,17 @@ vector<vector<double>> get_plants_data(string line) {
     return result;
 }
 
+vector<double> string_to_double(string line) {
+    vector<string> data = split(line, '-');
+    vector<double> result;
+    for (int i = 0; i < data.size(); i++)
+        result.push_back(stod(data[i]));
+    return result;
+}
+
 int main()
 {
     vector<string> lines = getting_input();
-    vector<vector<double>> zombies_data = get_zombies_data(lines[0]);
-    vector<vector<double>> plants_data = get_plants_data(lines[1]);
-    System system(zombies_data, plants_data, find_vector(lines[2]), find_vector(lines[3]));
+    System system(get_zombies_data(lines[0]), get_plants_data(lines[1]), string_to_double(lines[2]), string_to_double(lines[3]));
     system.run();
 }

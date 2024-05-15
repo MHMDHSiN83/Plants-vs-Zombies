@@ -11,7 +11,6 @@ private:
     vector<Texture> textures;
     int number_of_idle_frames = 20;
     int health;
-    // damage - health - cooldown - hit rate - speed - price
     int damage;
     int cooldown;
     int hit_rate;

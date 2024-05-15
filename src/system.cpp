@@ -1,7 +1,6 @@
 #include "../include/require.hpp"
 #include "../include/system.hpp"
 
-
 System::System(vector<vector<double>> zombies_data, vector<vector<double>> plants_data, vector<double> attack_data, vector<double> sun_data) {
     window.create(VideoMode::getDesktopMode(), "PVZ", Style::Default);
     window.setFramerateLimit(120);
@@ -13,45 +12,16 @@ System::System(vector<vector<double>> zombies_data, vector<vector<double>> plant
     score_box = new ScoreBox;
 
     play_music("assets/music/intro.ogg", true);
+
     set_information(zombies_data, plants_data, attack_data, sun_data);
-    for(int i = 0; i < cards_number; i++) {
-        double cooldown;
-        double price;
-        int card_type = plants_data[i][0];
-        switch (card_type)
-        {
-        case 0:
-            cooldown = peashooter_data[2];
-            price = peashooter_data[5];
-            cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
-            break;
-        case 1:
-            cooldown = sunflower_data[2];
-            price = sunflower_data[5];
-            cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
-            break;
-        case 2:
-            cooldown = walnut_data[2];
-            price = walnut_data[5];
-            cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
-            break;
-        case 3:
-            cooldown = icepeashooter_data[2];
-            price = icepeashooter_data[5];
-            cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
-            break;
-        }
-    }
+
+    create_cards(plants_data);
+    
+    set_pause_menu();
     
     for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
         for (int j = 0; j < NUMBER_OF_TILE_WIDTH; j++)
-            tiles_status[i][j] = 0;
-    if(!pause_menu_texture.loadFromFile("assets/pause_menu.png")) {
-        exit(0);
-    }
-    pause_menu_sprite.setTexture(pause_menu_texture);
-    pause_menu_sprite.setPosition(screen_size.x / 2 - pause_menu_sprite.getGlobalBounds().width / 2, screen_size.y / 2 - pause_menu_sprite.getGlobalBounds().height / 2);
-    
+            tiles_status[i][j] = 0;    
 }
 
 void System::set_information(vector<vector<double>> zombies_data, vector<vector<double>> plants_data, vector<double> attack_data, vector<double> sun_data){
@@ -59,11 +29,10 @@ void System::set_information(vector<vector<double>> zombies_data, vector<vector<
     {
         for (int j = 1; j < zombies_data[i].size(); j++)
         {
-            if(zombies_data[i][0] == 0) {
+            if(zombies_data[i][0] == 0)
                 regular_zombie.push_back(zombies_data[i][j]);
-            } else {
+            else
                 hair_metal_gargantuar_zombie.push_back(zombies_data[i][j]);
-            }
         }   
     }
 
@@ -99,9 +68,8 @@ void System::run() {
         render();
         handle_events();
     }
-    exit(0);
+    free_memory();
 }
-
 
 void System::update() {
     Vector2i position = Mouse::getPosition(window);
@@ -120,10 +88,8 @@ void System::update() {
         has_player_won();
         break;
     case (PAUSE_MENU):
-        // reset_clocks();
         break;
     case (MAIN_MENU):
-        // reset_clocks();
         break;
     case (VICTORY_SCREEN):
         break;
@@ -156,13 +122,10 @@ void System::render() {
         render_pause_menu();
         break;
     case (MAIN_MENU):
-        render_main_menu();
         break;
     case (VICTORY_SCREEN):
-        // render_victory_screen();
         break;
     case (GAMEOVER_SCREEN):
-        // render_game_over();
         break;
     case (EXIT):
         break;
@@ -221,9 +184,7 @@ void System::mouse_pressed(Event event) {
 
 void System::render_plants() {
     for (Plant* plant : plants)
-    {
         plant->render(&window);
-    }
 }
 
 void System::handle_mouse_pressed_plants(Vector2i mouse_position) {
@@ -261,10 +222,7 @@ void System::update_plants(Vector2i position) {
 
 void System::render_cards() {
     for (int i = 0; i < cards_number; i++)
-    {
         cards[i]->render(&window);
-    }
-    
 }
 
 void System::create_plant(int i){
@@ -287,26 +245,19 @@ void System::create_plant(int i){
 
 void System::handle_mouse_pressed_cards(Vector2i mouse_position) {
     for (int i = 0; i < cards_number; i++)
-    {
-        if(cards[i]->handle_mouse_pressed(mouse_position)) {
+        if(cards[i]->handle_mouse_pressed(mouse_position))
             create_plant(cards[i]->get_type());
-        }
-    }
 }
 
 void System::update_cards() {
     for (int i = 0; i < cards_number; i++)
-    {
         cards[i]->update(sun);
-    }
 }
 
 
 void System::render_sunshines() {
-    for (Sunshine* sunshine: sunshines) {
+    for (Sunshine* sunshine: sunshines)
         sunshine->render(&window);
-    }
-    
 }
 
 void System::update_sunshines() {
@@ -361,9 +312,8 @@ void System::create_zombie() {
 }
 
 void System::render_zombies() {
-    for (Zombie* zombie: zombies) {
+    for (Zombie* zombie: zombies)
         zombie->render(&window);
-    }
 }
 
 void System::update_zombies() {
@@ -382,16 +332,12 @@ void System::build_animation(){
 }
 void System::build_animation_of_plants(){
     for (Plant* plant : plants)
-    {
         plant->build_animation();
-    }
 }
 
 void System::build_animation_of_zombie(){
     for (Zombie* zombie : zombies)
-    {
         zombie->build_animation();
-    }
 }
 
 
@@ -400,9 +346,8 @@ int System::calculate_height_position(int tile) {
 }
 
 void System::render_bullets() {
-    for (Bullet* bullet: bullets) {
+    for (Bullet* bullet: bullets)
         bullet->render(&window);
-    }
 }
 
 void System::update_bullets() {
@@ -500,14 +445,12 @@ bool System::is_there_zombie_in_front(Plant* plant) {
 }
 
 
-void System::render_main_menu() {
-
-}
-
 void System::handle_mouse_pressed_main_menu(Vector2i mouse_position) {
     if(mouse_position.x > screen_size.x/4 && mouse_position.x < 3 * screen_size.x/4 && mouse_position.y > 6 * screen_size.y/7) {
         status = PLAYING;
         set_background("assets/background.png");
+        restart_clocks();
+        play_music("assets/music/ingame.ogg", true);
     }
 }
 
@@ -521,9 +464,8 @@ void System::set_background(string path) {
 }
 
 void System::key_pressed(Event event) {
-    if(event.key.code = Keyboard::Escape) {
+    if(event.key.code = Keyboard::Escape)
         status = PAUSE_MENU;
-    }
 }
 
 void System::render_pause_menu() {
@@ -551,9 +493,73 @@ void System::has_player_won() {
 
 Card* System::find_card_by_type(int type) {
     for (Card* card : cards)
-    {
         if(card->get_type() == type)
             return card;
-    }
     return NULL;
+}
+
+void System::restart_clocks() {
+    game_clock.restart();
+    wave_clock.restart();
+    zombie_clock.restart();
+    sunshine_clock.restart();
+    for (Card* card : cards)
+        card->start_timer();   
+}
+
+void System::create_cards(vector<vector<double>> plants_data) {
+    for(int i = 0; i < cards_number; i++) {
+        double cooldown;
+        double price;
+        int card_type = plants_data[i][0];
+        switch (card_type)
+        {
+        case 0:
+            cooldown = peashooter_data[2];
+            price = peashooter_data[5];
+            cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
+            break;
+        case 1:
+            cooldown = sunflower_data[2];
+            price = sunflower_data[5];
+            cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
+            break;
+        case 2:
+            cooldown = walnut_data[2];
+            price = walnut_data[5];
+            cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
+            break;
+        case 3:
+            cooldown = icepeashooter_data[2];
+            price = icepeashooter_data[5];
+            cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
+            break;
+        }
+    }
+}
+
+void System::set_pause_menu() {
+    if(!pause_menu_texture.loadFromFile("assets/pause_menu.png"))
+        exit(0);
+    pause_menu_sprite.setTexture(pause_menu_texture);
+    pause_menu_sprite.setPosition(screen_size.x / 2 - pause_menu_sprite.getGlobalBounds().width / 2, screen_size.y / 2 - pause_menu_sprite.getGlobalBounds().height / 2);
+}
+
+void System::free_memory() {
+    delete score_box;
+    for (auto p : plants)
+        delete p;
+    plants.clear();
+    for (auto s : sunshines)
+        delete s;
+    sunshines.clear();
+    for (auto z : zombies)
+        delete z;
+    zombies.clear();
+    for (auto b : bullets)
+        delete b;
+    bullets.clear();
+    for (auto c : cards)
+        delete c;
+    cards.clear();
 }

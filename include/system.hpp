@@ -1,19 +1,14 @@
 #pragma once
 
-
 #include "require.hpp"
 #include "card.hpp"
 #include "attackingPlant.hpp"
-#include "peashooter.hpp"
 #include "sunflower.hpp"
 #include "walnut.hpp"
 #include "sunshine.hpp"
 #include "scoreBox.hpp"
-#include "icePeashooter.hpp"
 #include "zombie.hpp"
 #include "bullet.hpp"
-
-
 
 class System {
 public:
@@ -32,9 +27,29 @@ private:
     Sprite background_sprite;
     Texture pause_menu_texture;
     Sprite pause_menu_sprite;
-    // pair<pair<float, float>, pair<float, float>> planting_area;
     Music music;
     bool tiles_status[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH];
+    int sun = 0;
+    Clock sunshine_clock;
+    Clock wave_clock;
+    Clock game_clock;
+    ScoreBox* score_box;
+    Clock zombie_clock;
+    Vector2u screen_size;
+    int cards_number;
+    vector<double> regular_zombie;
+    vector<double> hair_metal_gargantuar_zombie;
+    vector<double> peashooter_data;
+    vector<double> icepeashooter_data;
+    vector<double> kernelPult_data;
+    vector<double> sunflower_data;
+    vector<double> walnut_data;
+    vector<double> sunshine_data;
+    double win_timer;
+    double each_wave_time;
+    double zombie_number_each_wave;
+    double extra_zombie_each_wave;
+
     void update();
     void render();
     void handle_events();
@@ -52,38 +67,16 @@ private:
     void handle_mouse_pressed_sunshines(Vector2i position);
     void create_sunshine();
     void create_plant(int i);
-    int sun = 0;
-    Clock sunshine_clock;
-    Clock wave_clock;
-    Clock game_clock;
-    int sunshine_timer = SUNSHINE_TIMER;
     int generate_random_number_between(int start, int end);
-    ScoreBox* score_box;
     void create_zombie();
     void update_zombies();
     void render_zombies();
     void build_animation_of_plants();
     void build_animation_of_zombie();
-    Clock zombie_clock;
-    Vector2u screen_size;
     int calculate_height_position(int tile);
-    int cards_number;
     void update_bullets();
     void render_bullets();
-    /////////////////
     void set_information(vector<vector<double>> zombies_data, vector<vector<double>> plants_data, vector<double> attack_data, vector<double> sun_data);
-    vector<double> regular_zombie;
-    vector<double> hair_metal_gargantuar_zombie;
-    vector<double> peashooter_data;
-    vector<double> icepeashooter_data;
-    vector<double> kernelPult_data;
-    vector<double> sunflower_data;
-    vector<double> walnut_data;
-    vector<double> sunshine_data;
-    double win_timer;
-    double each_wave_time;
-    double zombie_number_each_wave;
-    double extra_zombie_each_wave;
     void handle_collision();
     void handle_zombie_bullet_collision();
     void handle_zombie_plant_collision();
@@ -100,5 +93,8 @@ private:
     void has_player_won();
     void render_victory_screen();
     Card* find_card_by_type(int type);
-
+    void restart_clocks();
+    void create_cards(vector<vector<double>> plants_data);
+    void set_pause_menu();
+    void free_memory();
 };

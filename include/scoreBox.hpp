@@ -12,4 +12,7 @@ private:
     RectangleShape rectangle;
     Text text;
     Font font;
+    Sprite sprite;
+    Texture texture;
+    IntRect rect;
 };

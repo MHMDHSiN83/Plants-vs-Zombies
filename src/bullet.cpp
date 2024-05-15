@@ -67,6 +67,8 @@ int Bullet::get_damage() { return damage; }
 double Bullet::get_speed_effect() {
     if(type == 0)
         return 1;
-    else if(type == 3)
+    else
         return 0.5;
 }
+
+Bullet::~Bullet() {}
