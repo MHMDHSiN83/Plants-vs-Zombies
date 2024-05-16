@@ -46,12 +46,12 @@ void Bullet::set_texture(int type) {
     switch (type)
     {
     case 0:
-        if(!texture.loadFromFile("assets/pea.png")) {
+        if(!texture.loadFromFile(PEA_BULLET_PATH)) {
             exit(0);
         }
         break;
     case 3:
-        if(!texture.loadFromFile("assets/snow_pea.png")) {
+        if(!texture.loadFromFile(SNOW_PEA_BULLET_PATH)) {
             exit(0);
         }
         break;

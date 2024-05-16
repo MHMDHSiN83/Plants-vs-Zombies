@@ -4,21 +4,13 @@
 System::System(vector<vector<double>> zombies_data, vector<vector<double>> plants_data, vector<double> attack_data, vector<double> sun_data) {
     window.create(VideoMode::getDesktopMode(), "PVZ", Style::Default);
     window.setFramerateLimit(120);
-
     status = MAIN_MENU;
-    
-    set_background("assets/main_menu.png");
-
+    set_background(MAIN_MENU_PATH);
     score_box = new ScoreBox;
-
-    play_music("assets/music/intro.ogg", true);
-
+    play_music(INTRO_MUSIC_PATH, true);
     set_information(zombies_data, plants_data, attack_data, sun_data);
-
     create_cards(plants_data);
-    
     set_pause_menu();
-    
     for (int i = 0; i < NUMBER_OF_TILE_HEIGHT; i++)
         for (int j = 0; j < NUMBER_OF_TILE_WIDTH; j++)
             tiles_status[i][j] = 0;    
@@ -40,14 +32,20 @@ void System::set_information(vector<vector<double>> zombies_data, vector<vector<
     {
         for (int j = 1; j < plants_data[i].size(); j++)
         {
-            if(plants_data[i][0] == 0) {
-                peashooter_data.push_back(plants_data[i][j]);
-            } else if(plants_data[i][0] == 1) {
-                sunflower_data.push_back(plants_data[i][j]);
-            } else if(plants_data[i][0] == 2) {
-                walnut_data.push_back(plants_data[i][j]);
-            } else if(plants_data[i][0] == 3) {
-                icepeashooter_data.push_back(plants_data[i][j]);
+            switch ((int)plants_data[i][0])
+            {
+                case PEASHOOTER:
+                    peashooter_data.push_back(plants_data[i][j]);
+                    break;
+                case SUNFLOWER:
+                    sunflower_data.push_back(plants_data[i][j]);
+                    break;
+                case WALNUT:
+                    walnut_data.push_back(plants_data[i][j]);
+                    break;
+                case ICEPEASHOOTER:
+                    icepeashooter_data.push_back(plants_data[i][j]);
+                    break;
             }
         }   
     }
@@ -209,7 +207,7 @@ void System::update_plants(Vector2i position) {
         plant->update(position);
         if(plant->is_time_to_create_sunshine()) {
             Vector2f plant_position = plant->get_position();
-            sunshines.push_back(new Sunshine({plant_position.x + 60, plant_position.y + 60}, sunshine_data, 0));
+            sunshines.push_back(new Sunshine({plant_position.x + DISTANCE_BETWEEN_SUN_AND_SUNWHINE, plant_position.y + DISTANCE_BETWEEN_SUN_AND_SUNWHINE}, sunshine_data, 0));
         }
         if(!is_there_zombie_in_front(plant))  {
             continue;
@@ -228,16 +226,16 @@ void System::render_cards() {
 void System::create_plant(int i){
     switch (i)
     {
-        case 0:
+        case PEASHOOTER:
             plants.push_back(new AttackingPlant(i, peashooter_data, icepeashooter_data));
             break;
-        case 1:
+        case SUNFLOWER:
             plants.push_back(new Sunflower(i, sunflower_data));
             break;
-        case 2:
+        case WALNUT:
             plants.push_back(new Walnut(i, walnut_data));
             break;
-        case 3:
+        case ICEPEASHOOTER:
             plants.push_back(new AttackingPlant(i, peashooter_data, icepeashooter_data));
             break;
     }
@@ -273,7 +271,7 @@ void System::update_sunshines() {
 void System::handle_mouse_pressed_sunshines(Vector2i mouse_position) {
     for (int i = 0; i < sunshines.size(); i++) {
         if(sunshines[i]->handle_mouse_pressed(mouse_position)) {
-            sun += 25;
+            sun += SUNSHINE_VALUE;
             sunshines.erase(sunshines.begin() + i);
             i--;
         }
@@ -299,15 +297,17 @@ int System::generate_random_number_between(int start, int end) {
 
 void System::create_zombie() {
     Time elapsed = zombie_clock.getElapsedTime();
-    if(elapsed.asSeconds() > each_wave_time / zombie_number_each_wave) {
-        int rand = generate_random_number_between(1,5);
-        int type = generate_random_number_between(0,1);
-        Vector2f zombie_position(MAX_WIDTH, calculate_height_position(rand));
-        if(type)
-            zombies.push_back(new Zombie(type, zombie_position, hair_metal_gargantuar_zombie, rand));
-        else
-            zombies.push_back(new Zombie(type, zombie_position, regular_zombie, rand));
-        zombie_clock.restart();
+    if(should_zombie_create) {
+        if(elapsed.asSeconds() > each_wave_time / zombie_number_each_wave) {
+            int rand = generate_random_number_between(1,5);
+            int type = generate_random_number_between(0,1);
+            Vector2f zombie_position(MAX_WIDTH, calculate_height_position(rand));
+            if(type)
+                zombies.push_back(new Zombie(type, zombie_position, hair_metal_gargantuar_zombie, rand));
+            else
+                zombies.push_back(new Zombie(type, zombie_position, regular_zombie, rand));
+            zombie_clock.restart();
+        }
     }
 }
 
@@ -321,7 +321,7 @@ void System::update_zombies() {
         zombie->update();
         if(zombie->is_out()) {
             status = GAMEOVER_SCREEN;
-            set_background("assets/game_over.png");
+            set_background(GAMEOVER_BACKGROUND_PATH);
         }
     }
 }
@@ -448,9 +448,9 @@ bool System::is_there_zombie_in_front(Plant* plant) {
 void System::handle_mouse_pressed_main_menu(Vector2i mouse_position) {
     if(mouse_position.x > screen_size.x/4 && mouse_position.x < 3 * screen_size.x/4 && mouse_position.y > 6 * screen_size.y/7) {
         status = PLAYING;
-        set_background("assets/background.png");
+        set_background(BACKGROUND_PATH);
         restart_clocks();
-        play_music("assets/music/ingame.ogg", true);
+        play_music(IN_GAME_MUSIC_PATH, true);
     }
 }
 
@@ -486,8 +486,18 @@ void System::update_wave() {
 void System::has_player_won() {
     Time elapsed = game_clock.getElapsedTime();
     if(elapsed.asSeconds() > win_timer) {
-        status = VICTORY_SCREEN;
-        set_background("assets/main_menu.png");
+        if(zombies.size() == 0) {
+            Time elapsed = sleep.getElapsedTime();
+            if(elapsed.asSeconds() > 3) {
+                status = VICTORY_SCREEN;
+                play_music(VICTORY_MUSIC_PATH, true);
+                background_texture.loadFromFile(VICTORY_SCREEN_PATH);
+                background_sprite.setPosition(screen_size.x /2 - 400, screen_size.y/2 - 330);
+            }
+        } else {
+            should_zombie_create = false;
+            sleep.restart();
+        }
     }
 }
 
@@ -514,22 +524,22 @@ void System::create_cards(vector<vector<double>> plants_data) {
         int card_type = plants_data[i][0];
         switch (card_type)
         {
-        case 0:
+        case PEASHOOTER:
             cooldown = peashooter_data[2];
             price = peashooter_data[5];
             cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
             break;
-        case 1:
+        case SUNFLOWER:
             cooldown = sunflower_data[2];
             price = sunflower_data[5];
             cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
             break;
-        case 2:
+        case WALNUT:
             cooldown = walnut_data[2];
             price = walnut_data[5];
             cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
             break;
-        case 3:
+        case ICEPEASHOOTER:
             cooldown = icepeashooter_data[2];
             price = icepeashooter_data[5];
             cards.push_back(new Card(FIRST_CARD_POSITION, card_type, cooldown, price, i));
@@ -539,7 +549,7 @@ void System::create_cards(vector<vector<double>> plants_data) {
 }
 
 void System::set_pause_menu() {
-    if(!pause_menu_texture.loadFromFile("assets/pause_menu.png"))
+    if(!pause_menu_texture.loadFromFile(PAUSE_MENU_PATH))
         exit(0);
     pause_menu_sprite.setTexture(pause_menu_texture);
     pause_menu_sprite.setPosition(screen_size.x / 2 - pause_menu_sprite.getGlobalBounds().width / 2, screen_size.y / 2 - pause_menu_sprite.getGlobalBounds().height / 2);

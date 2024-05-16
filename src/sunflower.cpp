@@ -7,9 +7,7 @@ Sunflower::Sunflower(int _type, vector<double> sunflower_data) : Plant(_type) {
 }
 
 void Sunflower::set_data_of_sunflower(vector<double> sunflower_data){
-    if(!texture.loadFromFile("assets/sunflower/1.png")) {
-        exit(0);
-    }
+    sprite.setTexture(textures[0]);
     damage = sunflower_data[0];
     health = sunflower_data[1];
     cooldown = sunflower_data[2];
@@ -30,7 +28,7 @@ void Sunflower::store_textures() {
     for (int i = 1; i <= number_of_idle_frames; i++)
     {
         Texture new_texture;
-        new_texture.loadFromFile("assets/sunflower/" + to_string(i) + ".png");
+        new_texture.loadFromFile(SUNFLOWER_PATH + to_string(i) + ".png");
         textures.push_back(new_texture);
     }
 }

@@ -14,7 +14,7 @@ Sunshine::Sunshine(Vector2f position, vector<double> sunshine_data, bool _type) 
 }
 
 void Sunshine::set_data(vector<double> sunshine_data){
-    if(!texture.loadFromFile("assets/some picture/sun.png")) {
+    if(!texture.loadFromFile(SUNSHINE_PATH)) {
         exit(0);
     }
     sprite.setScale(1.2, 1.2);

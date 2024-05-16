@@ -4,7 +4,7 @@ ScoreBox::ScoreBox() {
     rectangle.setSize(Vector2f(100,50));
     rectangle.setFillColor(Color::Black);
     rectangle.setPosition(200, 75);
-    if (!font.loadFromFile("assets/ARIAL.TTF")) {
+    if (!font.loadFromFile(FONT_PATH)) {
         exit(0);
     }
     text.setFont(font);
@@ -24,7 +24,7 @@ ScoreBox::ScoreBox() {
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
     sprite.setPosition(50, 30);
-    if(!texture.loadFromFile("assets/some picture/sun.png")) {
+    if(!texture.loadFromFile(SUNSHINE_PATH)) {
         exit(0);
     }
     sprite.setScale(1.2, 1.2);

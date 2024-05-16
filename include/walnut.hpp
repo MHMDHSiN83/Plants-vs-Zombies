@@ -8,11 +8,7 @@ public:
     void build_animation();
     void decrease_health(double zombie_damage);
     bool is_dead();
-    int set_picture();
 private:
-    double starting_health;
-    Texture little_scar;
-    Texture big_scar;
     void store_textures();
     vector<Texture> textures;
     int number_of_idle_frames = 25;

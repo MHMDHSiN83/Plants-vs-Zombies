@@ -18,27 +18,21 @@ Zombie::Zombie(int _type, Vector2f position, vector<double> zombie_data, int _he
 }
 
 void Zombie::set_data_of_normal_zombie(Vector2f position){
-    if(!texture.loadFromFile("assets/some picture/Zombie_healthy.png")) {
-        exit(0);
-    }
+    store_textures_of_normal_zombie();
     rect.width = 335;
     rect.height = 745;
-    store_textures_of_normal_zombie();
     sprite.setScale(0.5, 0.5);
-    sprite.setTexture(texture);
+    sprite.setTexture(walking_textures[0]);
     sprite.setTextureRect(rect);
     sprite.setPosition(position.x,  position.y - sprite.getGlobalBounds().height / 2);
 }
 
 void Zombie::set_data_of_giant_zombie(Vector2f position){
-    if(!texture.loadFromFile("assets/QQ/1.png")) {
-        exit(0);
-    }
+    store_textures_of_giant_zombie();
     rect.width = 514;
     rect.height = 485;
-    store_textures_of_giant_zombie();
     sprite.setScale(0.7, 0.7);
-    sprite.setTexture(texture);
+    sprite.setTexture(walking_textures[0]);
     sprite.setTextureRect(rect);
     sprite.setPosition(position.x, position.y - 2 * sprite.getGlobalBounds().height / 3);
 }
@@ -66,19 +60,17 @@ void Zombie::build_animation() {
     }
 }
 
-
 void Zombie::build_animation_of_normal_zombie() {
     if(!eating){
         timer_normal_zombie++;
         int counter = ((timer_normal_zombie/5 + 1) % NUMBER_OF_IDLE_FRAMES_NORMAL_ZOMBIE )+ 1;
-        sprite.setTexture(textures[counter - 1]);
+        sprite.setTexture(walking_textures[counter - 1]);
         if(timer_normal_zombie == 156) timer_normal_zombie = 0;
     }
     else {
-     //   sprite.setScale(1, 1);
         timer_eating_normal_zombie++;
         int counter = ((timer_eating_normal_zombie/5 + 1) % NUMBER_OF_EATING_FRAMES_NORMAL_ZOMBIE )+ 1;
-        sprite.setTexture(textures2[counter - 1]);
+        sprite.setTexture(eating_textures[counter - 1]);
         if(timer_eating_normal_zombie == 61) timer_eating_normal_zombie = 0;
     }
 }
@@ -87,15 +79,14 @@ void Zombie::build_animation_of_giant_zombie() {
     if(!eating){
         timer_giant_zombie++;
         int counter = ((timer_giant_zombie/5 + 1) % NUMBER_OF_IDLE_FRAMES_GIANT_ZOMBIE )+ 1;
-        sprite.setTexture(textures_of_giant[counter - 1]);
+        sprite.setTexture(walking_textures[counter - 1]);
         if(timer_giant_zombie == 306) timer_giant_zombie = 0;
     }
     else {
-        // sprite.setScale(0.8, 0.8);
         sprite.getPosition();
         timer_eating_giant_zombie++;
         int counter = ((timer_eating_giant_zombie/5 + 1) % NUMBER_OF_EATING_FRAMES_GIANT_ZOMBIE )+ 1;
-        sprite.setTexture(textures_of_eating_giant[counter - 1]);
+        sprite.setTexture(eating_textures[counter - 1]);
         if(timer_eating_giant_zombie == 146) timer_eating_giant_zombie = 0;
     }
 }
@@ -104,14 +95,14 @@ void Zombie::store_textures_of_normal_zombie() {
     for (int i = 1; i <= NUMBER_OF_IDLE_FRAMES_NORMAL_ZOMBIE; i++)
     {
         Texture new_texture;
-        new_texture.loadFromFile("assets/zom/" + to_string(i) + ".png");
-        textures.push_back(new_texture);
+        new_texture.loadFromFile(REGULAR_WALKING_ZOMBIE_PATH + to_string(i) + ".png");
+        walking_textures.push_back(new_texture);
     }
     for (int i = 1; i <= NUMBER_OF_EATING_FRAMES_NORMAL_ZOMBIE; i++)
     {
         Texture new_texture;
-        new_texture.loadFromFile("assets/zom/eating/" + to_string(i) + ".png");
-        textures2.push_back(new_texture);
+        new_texture.loadFromFile(REGULAR_EATING_ZOMBIE_PATH + to_string(i) + ".png");
+        eating_textures.push_back(new_texture);
     }
 }
 
@@ -119,14 +110,14 @@ void Zombie::store_textures_of_giant_zombie() {
     for (int i = 1; i <= NUMBER_OF_IDLE_FRAMES_GIANT_ZOMBIE; i++)
     {
         Texture new_texture;
-        new_texture.loadFromFile("assets/QQ/" + to_string(i) + ".png");
-        textures_of_giant.push_back(new_texture);
+        new_texture.loadFromFile(GIANT_WALKING_ZOMBIE_PATH + to_string(i) + ".png");
+        walking_textures.push_back(new_texture);
     }
     for (int i = 1; i <= NUMBER_OF_EATING_FRAMES_GIANT_ZOMBIE; i++)
     {
         Texture new_texture;
-        new_texture.loadFromFile("assets/QQQ/" + to_string(i) + ".png");
-        textures_of_eating_giant.push_back(new_texture);
+        new_texture.loadFromFile(GIANT_EATING_ZOMBIE_PATH + to_string(i) + ".png");
+        eating_textures.push_back(new_texture);
     }
 }
 
@@ -147,16 +138,7 @@ bool Zombie::is_dead() {
 }
 
 
-void Zombie::change_eating_situation() { 
-    if(!eating) {
-        eating = true;
-        // sprite.setPosition(sprite.getPosition().x - 50, sprite.getPosition().y - 100);
-        // sprite.setScale(1, 1);
-    } else {
-        eating = false;
-        // sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 40);
-    }
-}
+void Zombie::change_eating_situation() { eating = !eating; }
 
 double Zombie::get_damage() { return damage; }
 bool Zombie::is_eating() { return eating; }

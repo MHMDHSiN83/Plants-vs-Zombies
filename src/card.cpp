@@ -17,7 +17,7 @@ Card::Card(Vector2i first_card_position, int _type, double _cooldown, double _pr
     timer = 0;
     cooldown = _cooldown;
     price = _price;
-    if (!font.loadFromFile("assets/ARIAL.TTF")) {
+    if (!font.loadFromFile(FONT_PATH)) {
         exit(0);
     }
     time_text.setFont(font);
@@ -40,27 +40,27 @@ void Card::set_texture() {
     switch (type)
     {
     case 0:
-        if(!texture.loadFromFile("assets/cards/on_peashooter.png"))
+        if(!texture.loadFromFile(ON_PEASHOOTER_CARD_PATH))
             exit(0);
-        if(!pressed_texture.loadFromFile("assets/cards/off_peashooter.png"))
+        if(!pressed_texture.loadFromFile(OFF_PEASHOOTER_CARD_PATH))
             exit(0);
         break;
     case 1:
-        if(!texture.loadFromFile("assets/cards/on_sunflower.png"))
+        if(!texture.loadFromFile(ON_SUNFLOWER_CARD_PATH))
             exit(0);
-        if(!pressed_texture.loadFromFile("assets/cards/off_sunflower.png"))
+        if(!pressed_texture.loadFromFile(OFF_SUNFLOWER_CARD_PATH))
             exit(0);
         break;
     case 2:
-        if(!texture.loadFromFile("assets/cards/on_wallnut.png"))
+        if(!texture.loadFromFile(ON_WALNUT_CARD_PATH))
             exit(0);
-        if(!pressed_texture.loadFromFile("assets/cards/off_wallnut.png"))
+        if(!pressed_texture.loadFromFile(OFF_WALNUT_CARD_PATH))
             exit(0);
         break;
     case 3:
-        if(!texture.loadFromFile("assets/cards/on_snow_peashooter.png"))
+        if(!texture.loadFromFile(ON_ICEPEASHOOTER_CARD_PATH))
             exit(0);
-        if(!pressed_texture.loadFromFile("assets/cards/off_snow_peashooter.png"))
+        if(!pressed_texture.loadFromFile(OFF_ICEPEASHOOTER_CARD_PATH))
             exit(0);
         break;
     }

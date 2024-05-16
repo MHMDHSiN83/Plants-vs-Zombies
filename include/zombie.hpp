@@ -36,8 +36,8 @@ private:
     void set_data_of_normal_zombie(Vector2f position);
     void set_data_of_giant_zombie(Vector2f position);
     Texture texture;
-    vector<Texture> textures;
-    vector<Texture> textures2;
+    vector<Texture> walking_textures;
+    vector<Texture> eating_textures;
     Sprite sprite;
     IntRect rect;
     int timer_normal_zombie = 1;
@@ -51,7 +51,5 @@ private:
     Clock hit_clock;
     Clock freeze_clock;
     int type;
-    vector<Texture> textures_of_giant;
-    vector<Texture> textures_of_eating_giant;
 
 };

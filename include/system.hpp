@@ -29,10 +29,12 @@ private:
     Sprite pause_menu_sprite;
     Music music;
     bool tiles_status[NUMBER_OF_TILE_HEIGHT][NUMBER_OF_TILE_WIDTH];
+    bool should_zombie_create = true;
     int sun = 0;
     Clock sunshine_clock;
     Clock wave_clock;
     Clock game_clock;
+    Clock sleep;
     ScoreBox* score_box;
     Clock zombie_clock;
     Vector2u screen_size;
